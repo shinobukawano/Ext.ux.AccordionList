@@ -1,8 +1,7 @@
 Ext.ux.AccordionList
 =======
 
-Accordion list with using Ext.data.TreeStore.
-You can use expand and collapse contents by header item tap.And also it can nested infinity!
+Accordion list with using Ext.data.TreeStore. You can use expand and collapse contents by header item tap. And also it can nested infinity!
 
 about
 -----
