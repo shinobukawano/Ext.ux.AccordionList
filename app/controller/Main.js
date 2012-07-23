@@ -17,7 +17,7 @@ Ext.define('AccordionListExample.controller.Main', {
         }
     },
 
-    onLeafItemTap: function(self, list, index, target, record, e) {
+    onLeafItemTap: function(list, index, target, record) {
        Ext.Msg.alert('You tapped leaf! : ' + record.get('text'));
     }
 });

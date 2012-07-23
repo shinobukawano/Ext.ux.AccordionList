@@ -17,3 +17,9 @@
 @include sencha-msgbox;
 
 // Your custom code goes here...
+
+.x-button .x-button-icon.x-icon-mask,
+.x-toolbar .x-button .x-button-icon.x-icon-mask {
+  background-color: #00BBE8 !important;
+  background-image: none;
+}

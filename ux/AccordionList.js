@@ -47,15 +47,37 @@ Ext.define('Ext.ux.AccordionList', {
         displayField: 'text',
 
         /**
+         * @cfg {Boolean} scrollable
+         */
+        listScrollable: true,
+
+        /**
          * @cfg {String} headerItemTpl
          */
         headerItemTpl: [
             '<div style="background-color:#fff;',
-            ' min-height: 2.6em; padding: 0.65em 0.8em;',
-            ' border-bottom: 1px solid #dedede;',
-            ' color:#00bbe8;">',
-                '{text}',
+            ' min-height: 2.6em; padding: 0.4em 0.2em;',
+            ' border-bottom: 1px solid #dedede;">',
+                '<tpl if="this.isExpanded(values)">',
+                  '<span class="x-button x-button-plain">',
+                    '<span class="x-button-icon arrow_down x-icon-mask"',
+                    ' style="margin-right:0.4em;"></span>',
+                    '<span style="color:#00bbe8;">{text}</span>',
+                  '</span>',
+                '<tpl else>',
+                  '<span class="x-button x-button-plain">',
+                    '<span class="x-button-icon arrow_right x-icon-mask"',
+                    ' style="margin-right:0.4em;"></span>',
+                    '<span style="color:#00bbe8;">{text}</span>',
+                  '</span>',
+                '<tpl>',
             '</div>'
+            // '<div style="background-color:#fff;',
+            // ' min-height: 2.6em; padding: 0.65em 0.8em;',
+            // ' border-bottom: 1px solid #dedede;',
+            // ' color:#00bbe8;">',
+            //     '{text}',
+            // '</div>'
         ].join(''),
 
         /**
@@ -74,6 +96,11 @@ Ext.define('Ext.ux.AccordionList', {
          */
         defaultExpanded: false,
 
+        /**
+         * @cfg {Boolean} defaultExpanded
+         */
+        useAnimation: true,
+
         // @private
         list: null
     },
@@ -82,7 +109,6 @@ Ext.define('Ext.ux.AccordionList', {
         this.doInitialize();
         this.callParent(arguments);
     },
-
 
     /**
      * @private
@@ -123,24 +149,42 @@ Ext.define('Ext.ux.AccordionList', {
                         this.getContentItemTpl(),
                     '</div>',
                 '<tpl else>',
+                    // '<tpl if="this.isExpanded(values)">',
+                    //     'hoge',
+                    // '<tpl>',
                     '<div class="accordion-list-header">',
                         this.getHeaderItemTpl(),
                     '</div>',
-                '</tpl>');
+                '</tpl>',
+                {
+                    isExpanded: function(values) {
+                        return values.expanded;
+                    }
+                });
 
-            list = Ext.create('Ext.DataView', {
+            list = Ext.create('Ext.dataview.DataView', {
                 itemTpl: itemTpl
             });
 
             list.on('itemtap', this.onItemTap, this);
 
             this.setList(list);
+            list.setScrollable(this.getListScrollable());
             this.add(list);
         }
 
         list.setStore(newStore);
     },
 
+     /**
+     * @private
+     */
+     updateListScrollable: function(newListScrollable, oldListScrollable) {
+          var list = this.getList();
+          if (list) {
+              list.setScrollable(newListScrollable);
+          }
+     },
 
     /**
      * Called when an list item has been tapped
@@ -159,7 +203,7 @@ Ext.define('Ext.ux.AccordionList', {
 
         if (node.isLeaf()) {
             this.fireEvent('leafitemtap',
-                this, list, index, target, record, e);
+                list, index, target, record, e);
 
         } else {
             if (node.isExpanded()) {
@@ -175,11 +219,15 @@ Ext.define('Ext.ux.AccordionList', {
      * Fires when a node is tapped on
      */
     onExpand: function() {
+        if (!this.getUseAnimation()) {
+            return;
+        }
+
         var targets = this.getTargetItems();
 
         for (var i = 0; i < targets.length; i++) {
             Ext.Anim.run(Ext.get(targets[i]), 'fade', {
-                duration: i === 0 ? 300 : i * 500
+                duration: i === 0 ? 150 : i * 300
             });
         }
     },
