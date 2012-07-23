@@ -72,12 +72,6 @@ Ext.define('Ext.ux.AccordionList', {
                   '</span>',
                 '<tpl>',
             '</div>'
-            // '<div style="background-color:#fff;',
-            // ' min-height: 2.6em; padding: 0.65em 0.8em;',
-            // ' border-bottom: 1px solid #dedede;',
-            // ' color:#00bbe8;">',
-            //     '{text}',
-            // '</div>'
         ].join(''),
 
         /**
@@ -149,9 +143,6 @@ Ext.define('Ext.ux.AccordionList', {
                         this.getContentItemTpl(),
                     '</div>',
                 '<tpl else>',
-                    // '<tpl if="this.isExpanded(values)">',
-                    //     'hoge',
-                    // '<tpl>',
                     '<div class="accordion-list-header">',
                         this.getHeaderItemTpl(),
                     '</div>',
