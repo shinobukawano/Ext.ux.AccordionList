@@ -56,8 +56,7 @@ Ext.define('Ext.ux.AccordionList', {
          */
         headerItemTpl: [
             '<div style="background-color:#fff;',
-            ' min-height: 2.6em; padding: 0.4em 0.2em;',
-            ' border-bottom: 1px solid #dedede;">',
+            ' min-height: 2.6em; padding: 0.4em 0.2em;">',
                 '<tpl if="this.isExpanded(values)">',
                   '<span class="x-button x-button-plain">',
                     '<span class="x-button-icon arrow_down x-icon-mask"',

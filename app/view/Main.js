@@ -14,7 +14,7 @@ Ext.define("AccordionListExample.view.Main", {
         }, {
             xtype: 'accordionlist',
             flex: 1,
-            defaultExpanded: true,
+            defaultExpanded: false,
             store: Ext.create('AccordionListExample.store.ListItems')
         }]
     }
