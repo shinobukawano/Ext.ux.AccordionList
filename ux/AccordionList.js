@@ -69,7 +69,7 @@ Ext.define('Ext.ux.AccordionList', {
                     ' style="margin-right:0.4em;"></span>',
                     '<span style="color:#00bbe8;">{text}</span>',
                   '</span>',
-                '<tpl>',
+                '</tpl>',
             '</div>'
         ].join(''),
 
