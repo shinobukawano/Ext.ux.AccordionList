@@ -1,17 +1,24 @@
-
-Ext.Loader.setPath('Ext.ux', './ux');
+//<debug>
+Ext.Loader.setPath({
+    'Ext': 'touch/src',
+    'Ext.ux': 'ux',
+    'AccordionListExample': 'app'
+});
+//</debug>
 
 Ext.application({
+    controllers: ["Task"],
+
+    models: ["Task"],
+
     name: 'AccordionListExample',
 
     requires: [
         'Ext.MessageBox',
-        'Ext.data.TreeStore'
+        'AccordionListExample.store.Task'
     ],
 
     views: ['Main'],
-
-    controllers: ['Main'],
 
     icon: {
         '57': 'resources/icons/Icon.png',

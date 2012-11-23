@@ -15,8 +15,11 @@ Getting Started
 
 All you need to do is place the 'ux' folder somewhere within your application, then add the following to your app (at the top of 'app.js' is a good place)::
 
-    Ext.Loader.setConfig({enabled:true});
-    Ext.Loader.setPath('Ext.ux', './ux');
+    Ext.Loader.setPath({
+        'Ext': 'touch/src',
+        'Ext.ux': 'ux',
+        'AccordionListExample': 'app'
+    });
 
 Adjust './ux' to wherever you actually placed the 'ux' folder.
 
@@ -28,6 +31,12 @@ Then in whatever component you wish to use the view, add::
 
 For a more complete example, see `app/view/Main.js`.
 
+2.1 with Sencha Cmd
+-------------------
+
+Before build package, you must define "${add.dir}/ux" to sencha.cfg
+
+    app.classpath=${app.dir}/app.js,${app.dir}/ux,${app.dir}/app
 
 license
 -------

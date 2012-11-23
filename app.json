@@ -22,7 +22,10 @@
      * List of all JavaScript assets in the right execution order.
      * Each item is an object with the following format:
      *      {
-     *          "path": "path/to/script.js" // Relative path to this app.json file
+     *          "path": "path/to/script.js" // Path to file, if local file it must be relative to this app.json file
+     *          "remote": true              // (Optional)
+     *                                      // - Defaults to undefined (falsey) to signal a local file which will be copied
+     *                                      // - Specify true if this file is a remote file which will not to be copied
      *          "update": "delta"           // (Optional)
      *                                      //  - If not specified, this file will only be loaded once, and
      *                                      //    cached inside localStorage until this value is changed.
@@ -33,7 +36,7 @@
      */
     "js": [
         {
-            "path": "sdk/sencha-touch.js"
+            "path": "touch/sencha-touch.js"
         },
         {
             "path": "app.js",
@@ -46,7 +49,10 @@
      * List of all CSS assets in the right inclusion order.
      * Each item is an object with the following format:
      *      {
-     *          "path": "path/to/item.css" // Relative path to this app.json file
+     *          "path": "path/to/item.css" // Path to file, if local file it must be relative to this app.json file
+     *          "remote": true             // (Optional)
+     *                                     // - Defaults to undefined (falsey) to signal a local file which will be copied
+     *                                     // - Specify true if this file is a remote file which will not to be copied
      *          "update": "delta"          // (Optional)
      *                                     //  - If not specified, this file will only be loaded once, and
      *                                     //    cached inside localStorage until this value is changed to either one below
@@ -123,12 +129,12 @@
         "product": "touch",
         "minVersion": 3,
         "debug": false,
-        "logger": "false"
+        "logger": false
     },
 
     /**
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "c5e83510-c70c-11e1-94e2-83d5f8d813e7"
+    "id": "ca925e89-a400-44cf-a632-bfd394929a79"
 }

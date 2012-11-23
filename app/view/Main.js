@@ -1,21 +1,23 @@
-Ext.define("AccordionListExample.view.Main", {
+Ext.define('AccordionListExample.view.Main', {
     extend: 'Ext.Container',
-
+    xtype: 'main',
     requires: [
         'Ext.TitleBar',
-        'Ext.ux.AccordionList'
+        'Ext.ux.AccordionList',
+        'AccordionListExample.store.Task'
     ],
-
     config: {
         layout: 'vbox',
-        items: [{
-            xtype: 'titlebar',
-            title: 'AccordionListExample'
-        }, {
-            xtype: 'accordionlist',
-            flex: 1,
-            defaultExpanded: false,
-            store: Ext.create('AccordionListExample.store.ListItems')
-        }]
+        items: [
+            {
+                xtype: 'titlebar',
+                title: 'Accordion List Sample'
+            },
+            {
+                xtype: 'accordionlist',
+                store: Ext.create('AccordionListExample.store.Task'),
+                flex: 1
+            }
+        ]
     }
 });
