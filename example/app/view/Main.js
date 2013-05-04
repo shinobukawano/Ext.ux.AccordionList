@@ -10,7 +10,7 @@ Ext.define('AccordionListExample.view.Main', {
         items: [
             {
                 xtype: 'titlebar',
-                title: 'Accordion List Sample',
+                title: 'Accordion List Example',
                 docked: 'top'
             },
             {

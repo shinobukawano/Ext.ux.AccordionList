@@ -2,7 +2,7 @@
     /**
      * The application's namespace, used by Sencha Command to generate classes
      */
-    "name": "AccordionListExample",
+    "name": "22",
 
     /**
      * The file path to this application's front HTML document, relative to this app.json file
@@ -31,12 +31,17 @@
      *                                      //    cached inside localStorage until this value is changed.
      *                                      //  - "delta" to enable over-the-air delta update for this file
      *                                      //  - "full" means full update will be made when this file changes
+     *          "x-bootstrap": true         // (Optional)
+     *                                      // Indicates a development mode only dependency.  
+     *                                      // These files will not be copied into the build directory or referenced
+     *                                      // in the generate app.json manifest for the micro loader.
      *
      *      }
      */
     "js": [
         {
-            "path": "touch/sencha-touch-debug.js"
+            "path": "touch/sencha-touch.js",
+            "x-bootstrap": true
         },
         {
             "path": "app.js",
@@ -113,28 +118,8 @@
     "archivePath": "archive",
 
     /**
-     * Default paths to build this application to for each environment
-     */
-    "buildPaths": {
-        "testing": "build/testing",
-        "production": "build/production",
-        "package": "build/package",
-        "native": "build/native"
-    },
-
-    /**
-     * Build options
-     */
-    "buildOptions": {
-        "product": "touch",
-        "minVersion": 3,
-        "debug": false,
-        "logger": false
-    },
-
-    /**
      * Uniquely generated id for this application, used as prefix for localStorage keys.
      * Normally you should never change this value.
      */
-    "id": "ca925e89-a400-44cf-a632-bfd394929a79"
+    "id": "a5873a36-71ae-49fa-b93d-c11b8c4d8e99"
 }
