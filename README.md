@@ -6,9 +6,9 @@ Collapsible List with using Ext.data.TreeStore. You can expand and collapse cont
 
 [![1](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image1.png)
 
-[![2](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image2.png)
+[![2](image2.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image2.png)
 
-[![3](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image3.png)
+[![3](image3.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image3.png)
 
 ## Demo
 
