@@ -8,3 +8,6 @@
 
 // Examples of using the icon mixin:
 // @include icon('user');
+
+@import 'stylesheets/accordionlist';
+@include accordionlist;

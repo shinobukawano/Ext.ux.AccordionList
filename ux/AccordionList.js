@@ -7,20 +7,15 @@
  *  @author KAWANO Shinobu <http://kawanoshinobu.com>
  */
 Ext.define('Ext.ux.AccordionList', {
-    extend             : 'Ext.Container',
-    xtype              : 'accordionlist',
-    alternateClassName : 'Ext.AccordionList',
+    extend: 'Ext.Container',
+    xtype: 'accordionlist',
+    alternateClassName: 'Ext.AccordionList',
 
     requires: [
-        'Ext.data.Store',
-        'Ext.dataview.DataView',
-        'Ext.XTemplate',
-        'Ext.data.NodeStore',
-        'Ext.data.TreeStore'
+        'Ext.dataview.List'
     ],
 
     config: {
-
         /**
          * @cfg {String} cls
          */
@@ -52,34 +47,27 @@ Ext.define('Ext.ux.AccordionList', {
          * @cfg {String} headerItemTpl
          */
         headerItemTpl: [
-            '<div style="background-color:#fff;',
-            ' min-height: 2.6em; padding: 0.4em 0.2em;">',
-                '<tpl if="this.isExpanded(values)">',
-                  '<span class="x-button x-button-plain">',
-                    '<span class="x-button-icon arrow_down x-icon-mask"',
-                    ' style="margin-right:0.4em;"></span>',
-                    '<span style="color:#00bbe8;">{text}</span>',
-                  '</span>',
-                '<tpl else>',
-                  '<span class="x-button x-button-plain">',
-                    '<span class="x-button-icon arrow_right x-icon-mask"',
-                    ' style="margin-right:0.4em;"></span>',
-                    '<span style="color:#00bbe8;">{text}</span>',
-                  '</span>',
-                '</tpl>',
-            '</div>'
+            '<tpl if="this.isExpanded(values)">',
+                '{0}',
+            '<tpl else>',
+                '{1}',
+            '</tpl>'
         ].join(''),
 
         /**
          * @cfg {String} contentItemTpl
          */
-        contentItemTpl: [
-            '<div style="background-color:#fff;',
-            ' min-height: 2.6em; padding: 0.65em 0.8em;',
-            ' border-bottom: 1px solid #dedede;">',
-                '{text}',
-            '</div>'
-        ].join(''),
+        headerCloseTpl: '<div class="right"></div><div>{text}</div>',
+
+        /**
+         * @cfg {String} contentItemTpl
+         */
+        headerOpenTpl: '<div class="down"></div><div>{text}</div>',
+
+        /**
+         * @cfg {String} contentItemTpl
+         */
+        contentItemTpl: '{text}',
 
         /**
          * @cfg {Boolean} defaultExpanded
@@ -91,16 +79,18 @@ Ext.define('Ext.ux.AccordionList', {
     },
 
     initialize: function() {
-        this.doInitialize();
-        this.callParent(arguments);
+        var me = this;
+        me.doInitialize();
+        me.callParent(arguments);
     },
 
     /**
      * @private
      */
     doInitialize: function() {
-        if (this.getDefaultExpanded()) {
-            this.doAllExpanded();
+        var me = this;
+        if (me.getDefaultExpanded()) {
+            me.doAllExpanded();
         }
     },
 
@@ -108,35 +98,41 @@ Ext.define('Ext.ux.AccordionList', {
      * Display all of contents.
      */
     doAllExpanded: function() {
-        var list = this.getList(),
+        var me = this,
+            list = me.getList(),
             store = list.getStore();
 
         function doExpand(node) {
             node.expand();
             if (!node.isLeaf()) {
-                node.childNodes.forEach(doExpand, this);
+                node.childNodes.forEach(doExpand, me);
             }
         }
-        store.each(doExpand, this);
+
+        store.each(doExpand, me);
     },
 
     /**
-     * @private
+     * @protected
+     */
+    applyStore: function(newStore) {
+        return this.patchStore(newStore);
+    },
+
+    /**
+     * @protected
      */
     updateStore: function(newStore, oldStore) {
-        var list = this.getList(),
+        var me = this,
+            list = me.getList(),
             itemTpl;
 
         if (!list) {
             itemTpl = new Ext.XTemplate(
                 '<tpl if="leaf">',
-                    '<div class="accordion-list-content">',
-                        this.getContentItemTpl(),
-                    '</div>',
+                    me.getContentItemTpl(),
                 '<tpl else>',
-                    '<div class="accordion-list-header">',
-                        this.getHeaderItemTpl(),
-                    '</div>',
+                    me.makeHeaderTemplate(),
                 '</tpl>',
                 {
                     isExpanded: function(values) {
@@ -144,18 +140,28 @@ Ext.define('Ext.ux.AccordionList', {
                     }
                 });
 
-            list = Ext.create('Ext.dataview.DataView', {
+            list = Ext.create('Ext.dataview.List', {
                 itemTpl: itemTpl
             });
 
-            list.on('itemtap', this.onItemTap, this);
+            list.on('itemtap', me.onItemTap, me);
 
-            this.setList(list);
-            list.setScrollable(this.getListScrollable());
-            this.add(list);
+            me.setList(list);
+            list.setScrollable(me.getListScrollable());
+            me.add(list);
         }
 
         list.setStore(newStore);
+    },
+
+    /**
+     * @private
+     * @return {String}
+     */
+    makeHeaderTemplate: function() {
+        var me = this;
+        return Ext.String.format(me.getHeaderItemTpl(),
+            me.getHeaderOpenTpl(), me.getHeaderCloseTpl());
     },
 
      /**
@@ -177,53 +183,63 @@ Ext.define('Ext.ux.AccordionList', {
      * @param {Ext.event.Event} e The event
      */
     onItemTap: function(list, index, target, record, e) {
-        var store = list.getStore(),
+        var me = this,
+            store = list.getStore(),
             node = store.getAt(index);
 
-        this.fireEvent('itemtap',
-            this, list, index, target, record, e);
+        me.fireEvent('itemtap',
+            me, list, index, target, record, e);
 
         if (node.isLeaf()) {
-            this.fireEvent('leafitemtap',
+            me.fireEvent('leafitemtap',
                 list, index, target, record, e);
 
         } else {
             if (node.isExpanded()) {
                 node.collapse();
             } else {
-                node.expand(false, this.onExpand, this);
+                node.expand(false, me.onExpand, me);
             }
         }
     },
 
     /**
+     * HACK: See. Can not able to load json data in Sencha touch 2.1 Accordionlist
+     *       http://www.sencha.com/forum/showthread.php?253032-Can-not-able-to-load-json-data-in-Sencha-touch-2.1-Accordionlist
      * @private
+     * @param  {[type]} store
+     * @return {Ext.data.TreeStore}
      */
-    getTargetItems: function() {
-        var header = Ext.query('.' + this.getCls() + ' .x-dataview-item'),
-            isTarget = false,
-            targets = [],
-            elem;
+    patchStore: function(store) {
+        store.onProxyLoad = function(operation) {
+            var me = this,
+                records = operation.getRecords(),
+                successful = operation.wasSuccessful(),
+                node = operation.getNode();
 
-        for (var i = 0; i < header.length; i++) {
-            elem = Ext.get(header[i]);
-
-            if (elem.hasCls('x-item-selected')) {
-                isTarget = true;
-                continue;
+            node.beginEdit();
+            node.set('loading', false);
+            if (successful) {
+                records = me.fillNode(node, records);
             }
+            node.endEdit();
+            this.updateNode(node);
+            me.loading = false;
+            me.loaded = true;
 
-            if (isTarget) {
-                var content = elem.down('.accordion-list-content');
-                if (content) {
-                    targets.push(content);
-                } else {
-                    break;
-                }
-            }
-        }
+            node.fireEvent('load', node, records, successful);
+            me.fireEvent('load', this, records, successful, operation);
 
-        return targets;
+            // this is a callback that would have been passed to the 'read' function and is
+            // optional
+            Ext.callback(operation.getCallback(), operation.getScope() ||
+                me, [records, operation, successful]);
+        };
+        store.onNodeBeforeExpand = function() {
+            // Do nothing.
+        };
+        store.load();
+        return store;
     }
 
 });

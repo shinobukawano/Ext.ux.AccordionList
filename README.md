@@ -21,8 +21,8 @@ Place the 'ux' folder somewhere within your application, then add the following 
 
     Ext.Loader.setPath({
         'Ext': 'touch/src',
-        'Ext.ux': 'ux',
-        'AccordionListExample': 'app'
+        'MyApp': 'app',
+        'Ext.ux': 'ux'
     });
 
 Adjust './ux' to wherever you actually placed the 'ux' folder.
@@ -32,6 +32,12 @@ Then in whatever component you wish to use the view, add:
     requires = [
         'Ext.ux.AccordionList',
     ]
+
+If you use default design, import _accordionlist.scss and include accordionlist mixin.
+
+    // app.scss
+    @import 'stylesheets/accordionlist';
+    @include accordionlist;
 
 Before build with Sencha Cmd, you must define "${add.dir}/ux" to sencha.cfg:
 
@@ -45,7 +51,7 @@ Execute the following command in the sources root directory
 
 Then to place example directory to server's application directory.
 
-### Test
+## Test
 
 
 ## Version
