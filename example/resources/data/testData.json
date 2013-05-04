@@ -1,6 +1,6 @@
 {
     "items" : [{
-                "text" : "Default",
+                "text" : "Today",
                 "items" : [{
                             "text" : "Eat",
                             "leaf" : true
@@ -12,7 +12,7 @@
                             "leaf" : true
                         }]
             }, {
-                "text" : "VIP",
+                "text" : "Tomorrow",
                 "items" : [{
                             "text" : "Watch TV",
                             "leaf" : true
@@ -21,13 +21,13 @@
                             "leaf" : true
                         }]
             }, {
-                "text" : "Group-1",
+                "text" : "This week",
                 "items" : [{
                             "text" : "Shopping",
                             "leaf" : true
                         }]
             }, {
-                "text" : "Group-2",
+                "text" : "Later",
                 "items" : [{
                             "text" : "Eat",
                             "leaf" : true

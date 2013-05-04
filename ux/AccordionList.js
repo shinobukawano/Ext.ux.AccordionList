@@ -22,6 +22,16 @@ Ext.define('Ext.ux.AccordionList', {
         cls: Ext.baseCSSPrefix + 'accordion-list',
 
         /**
+         * @cfg {String} headerItemCls
+         */
+        headerItemCls: Ext.baseCSSPrefix + 'accordion-list-header',
+
+        /**
+         * @cfg {String} cls
+         */
+        contentItemCls: Ext.baseCSSPrefix + 'accordion-list-content',
+
+        /**
          * @cfg {Object} layout
          */
         layout: {
@@ -55,12 +65,12 @@ Ext.define('Ext.ux.AccordionList', {
         ].join(''),
 
         /**
-         * @cfg {String} contentItemTpl
+         * @cfg {String} headerCloseTpl
          */
         headerCloseTpl: '<div class="right"></div><div>{text}</div>',
 
         /**
-         * @cfg {String} contentItemTpl
+         * @cfg {String} headerOpenTpl
          */
         headerOpenTpl: '<div class="down"></div><div>{text}</div>',
 
@@ -74,10 +84,18 @@ Ext.define('Ext.ux.AccordionList', {
          */
         defaultExpanded: false,
 
+        /**
+         * @cfg {Boolean} useSelectedHighlights
+         */
+        useSelectedHighlights: true,
+
         // @private
         list: null
     },
 
+    /**
+     * @protected
+     */
     initialize: function() {
         var me = this;
         me.doInitialize();
@@ -90,26 +108,45 @@ Ext.define('Ext.ux.AccordionList', {
     doInitialize: function() {
         var me = this;
         if (me.getDefaultExpanded()) {
-            me.doAllExpanded();
+            me.doAllExpand();
         }
     },
 
     /**
-     * Display all of contents.
+     * Expand all of contents.
      */
-    doAllExpanded: function() {
+    doAllExpand: function() {
+        var me = this;
+        me.doAll(function expand(node) {
+            node.expand();
+            if (!node.isLeaf()) {
+                node.childNodes.forEach(expand, me);
+            }
+        });
+    },
+
+    /**
+     * Collapse all of contents.
+     */
+    doAllCollapse: function() {
+        var me = this;
+        me.doAll(function collapse(node) {
+            node.collapse();
+            if (!node.isLeaf()) {
+                node.childNodes.forEach(collapse, me);
+            }
+        });
+    },
+
+    /**
+     * @private
+     * @param  {Function} updater
+     */
+    doAll: function(updater) {
         var me = this,
             list = me.getList(),
             store = list.getStore();
-
-        function doExpand(node) {
-            node.expand();
-            if (!node.isLeaf()) {
-                node.childNodes.forEach(doExpand, me);
-            }
-        }
-
-        store.each(doExpand, me);
+        store.each(updater, me);
     },
 
     /**
@@ -141,10 +178,16 @@ Ext.define('Ext.ux.AccordionList', {
                 });
 
             list = Ext.create('Ext.dataview.List', {
-                itemTpl: itemTpl
+                itemTpl: itemTpl,
+                scrollToTopOnRefresh: false
             });
 
+            if (me.getUseSelectedHighlights() === false) {
+                list.setSelectedCls('');
+            }
+
             list.on('itemtap', me.onItemTap, me);
+            list.on('refresh', me.onListRefresh, me);
 
             me.setList(list);
             list.setScrollable(me.getListScrollable());
@@ -175,6 +218,27 @@ Ext.define('Ext.ux.AccordionList', {
      },
 
     /**
+     * @private
+     * @param  {Ext.dataview.List} list
+     */
+    onListRefresh: function(list) {
+        var me = this,
+            items = list.listItems,
+            ln = items.length,
+            headerCls = me.getHeaderItemCls(),
+            contentCls = me.getContentItemCls(),
+            i, item, record, isLeaf;
+
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            record = item.getRecord();
+            isLeaf = record.get('leaf');
+            item.removeCls(isLeaf ? headerCls : contentCls);
+            item.addCls(isLeaf ? contentCls : headerCls);
+        }
+    },
+
+    /**
      * Called when an list item has been tapped
      * @param {Ext.List} list The subList the item is on
      * @param {Number} index The id of the item tapped
@@ -194,11 +258,13 @@ Ext.define('Ext.ux.AccordionList', {
             me.fireEvent('leafitemtap',
                 list, index, target, record, e);
 
-        } else {
+        }
+        else {
             if (node.isExpanded()) {
                 node.collapse();
-            } else {
-                node.expand(false, me.onExpand, me);
+            }
+            else {
+                node.expand();
             }
         }
     },

@@ -1,0 +1,210 @@
+{
+    "items": [
+        {
+            "text": "2012",
+            "year": true,
+            "items": [
+                {
+                    "text": "Jan",
+                    "items": [
+                        {
+                            "sales": 120,
+                            "expenses": 90,
+                            "profits": 30,
+                            "leaf": true
+                        },
+                        {
+                            "sales": 150,
+                            "expenses": 70,
+                            "profits": 80,
+                            "leaf": true
+                        }
+                    ]
+                },
+                 {
+                    "text": "Feb",
+                    "items": [
+                        {
+                            "sales": 100,
+                            "expenses": 80,
+                            "profits": 20,
+                            "leaf": true
+                        },
+                        {
+                            "sales": 130,
+                            "expenses": 80,
+                            "profits": 50,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Mar",
+                    "items": [
+                        {
+                            "sales": 180,
+                            "expenses": 110,
+                            "profits": 70,
+                            "leaf": true
+                        },
+                        {
+                            "sales": 130,
+                            "expenses": 80,
+                            "profits": 50,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Apr",
+                    "items": [
+                        {
+                            "sales": 110,
+                            "expenses": 70,
+                            "profits": 40,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "May",
+                    "items": [
+                        {
+                            "sales": 60,
+                            "expenses": 50,
+                            "profits": 10,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Jun",
+                    "items": [
+                        {
+                            "sales": 210,
+                            "expenses": 180,
+                            "profits": 30,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Jul",
+                    "items": [
+                        {
+                            "sales": 250,
+                            "expenses": 140,
+                            "profits": 110,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Aug",
+                    "items": [
+                        {
+                            "sales": 130,
+                            "expenses": 80,
+                            "profits": 50,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Sep",
+                    "items": [
+                        {
+                            "sales": 110,
+                            "expenses": 80,
+                            "profits": 30,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Oct",
+                    "items": [
+                        {
+                            "sales": 180,
+                            "expenses": 110,
+                            "profits": 70,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Nov",
+                    "items": [
+                        {
+                            "sales": 220,
+                            "expenses": 130,
+                            "profits": 90,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Dec",
+                    "items": [
+                        {
+                            "sales": 150,
+                            "expenses": 130,
+                            "profits": 30,
+                            "leaf": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "text": "2013",
+            "year": true,
+            "items": [
+                {
+                    "text": "Jan",
+                    "items": [
+                        {
+                            "sales": 120,
+                            "expenses": 90,
+                            "profits": 30,
+                            "leaf": true
+                        }
+                    ]
+                },
+                 {
+                    "text": "Feb",
+                    "items": [
+                        {
+                            "sales": 100,
+                            "expenses": 80,
+                            "profits": 20,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Mar",
+                    "items": [
+                        {
+                            "sales": 180,
+                            "expenses": 110,
+                            "profits": 70,
+                            "leaf": true
+                        }
+                    ]
+                },
+                {
+                    "text": "Apr",
+                    "items": [
+                        {
+                            "sales": 110,
+                            "expenses": 70,
+                            "profits": 40,
+                            "leaf": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

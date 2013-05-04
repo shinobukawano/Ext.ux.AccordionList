@@ -9,5 +9,23 @@
 // Examples of using the icon mixin:
 // @include icon('user');
 
+@include icon('chart');
+
 @import 'stylesheets/accordionlist';
 @include accordionlist;
+
+.PL-view {
+    .x-accordion-list-header {
+        background-color: #157fcc;
+        border-top: 1px solid #157fcc;
+        color: #fff;
+
+        .down {
+            border-top-color: #fff;
+        }
+
+        .right {
+            border-left-color: #fff;
+        }
+    }
+}

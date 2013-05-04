@@ -4,6 +4,12 @@ Sencha Touch 2 custom component.
 
 Collapsible List with using Ext.data.TreeStore. You can expand and collapse contents by header item tap. Also it can nested infinity.
 
+[![1](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image1.png)
+
+[![2](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image2.png)
+
+[![3](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image3.png)
+
 ## Demo
 
 - [Ext.ux.AccordionList Example](http://docs.kawanoshinobu.com/accordionlist)
@@ -50,9 +56,6 @@ Execute the following command in the sources root directory
     sencha ant -f project.xml initialize
 
 Then to place example directory to server's application directory.
-
-## Test
-
 
 ## Version
 
