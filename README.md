@@ -61,6 +61,16 @@ Then to place example directory to server's application directory.
 
 1.0
 
+## Change log
+
+[2013-05-05] **v1.0.0** KAWANO Shinobu (kawanoshinobu)
+
+* Update for Sencha Touch 2.2
+* Refactoring code
+* Add some utility config (headerItemCls, contentItemCls, useSelectedHighlights)
+* Add new example
+* Created API documentation and Usage Guide.
+
 ## license
 
 Copyright (c) 2013 KAWANO Shinobu. This software is licensed under the MIT License.
