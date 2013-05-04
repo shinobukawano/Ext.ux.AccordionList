@@ -27,7 +27,7 @@ Ext.define('Ext.ux.AccordionList', {
         headerItemCls: Ext.baseCSSPrefix + 'accordion-list-header',
 
         /**
-         * @cfg {String} cls
+         * @cfg {String} contentItemCls
          */
         contentItemCls: Ext.baseCSSPrefix + 'accordion-list-content',
 
@@ -67,17 +67,17 @@ Ext.define('Ext.ux.AccordionList', {
         /**
          * @cfg {String} headerCloseTpl
          */
-        headerCloseTpl: '<div class="right"></div><div>{text}</div>',
+        headerCloseTpl: '<div class="right"></div><div>{0}</div>',
 
         /**
          * @cfg {String} headerOpenTpl
          */
-        headerOpenTpl: '<div class="down"></div><div>{text}</div>',
+        headerOpenTpl: '<div class="down"></div><div>{0}</div>',
 
         /**
          * @cfg {String} contentItemTpl
          */
-        contentItemTpl: '{text}',
+        contentItemTpl: '{0}',
 
         /**
          * @cfg {Boolean} defaultExpanded
@@ -159,6 +159,13 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * @protected
      */
+    applyDisplayField: function(newField) {
+        return '{' + newField + '}';
+    },
+
+    /**
+     * @protected
+     */
     updateStore: function(newStore, oldStore) {
         var me = this,
             list = me.getList(),
@@ -167,7 +174,7 @@ Ext.define('Ext.ux.AccordionList', {
         if (!list) {
             itemTpl = new Ext.XTemplate(
                 '<tpl if="leaf">',
-                    me.getContentItemTpl(),
+                    me.makeContentTemplate(),
                 '<tpl else>',
                     me.makeHeaderTemplate(),
                 '</tpl>',
@@ -202,9 +209,21 @@ Ext.define('Ext.ux.AccordionList', {
      * @return {String}
      */
     makeHeaderTemplate: function() {
-        var me = this;
-        return Ext.String.format(me.getHeaderItemTpl(),
-            me.getHeaderOpenTpl(), me.getHeaderCloseTpl());
+        var me = this,
+            displayField = me.getDisplayField(),
+            openTpl = Ext.String.format(me.getHeaderOpenTpl(), displayField),
+            closeTpl = Ext.String.format(me.getHeaderCloseTpl(), displayField);
+        return Ext.String.format(me.getHeaderItemTpl(), openTpl, closeTpl);
+    },
+
+    /**
+     * @private
+     * @return {String}
+     */
+    makeContentTemplate: function() {
+        var me = this,
+            displayField = me.getDisplayField();
+        return Ext.String.format(me.getContentItemTpl(), displayField);
     },
 
      /**
