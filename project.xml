@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Ext.ux.AccordionList" basedir=".">
+
+    <!-- Specify the application base path -->
+    <property name="app.dir" value="example"/>
+
+    <property name="cache.dir" location=".ux-ant-cache"/>
+
+    <property name="touch.version" value="2.2.0"/>
+
+    <property name="touch.src" value="http://cdn.sencha.io/touch/sencha-touch-${touch.version}-gpl.zip"/>
+
+    <target name="initialize">
+
+        <mkdir dir="${cache.dir}"/>
+
+        <!-- Download and unpack Touch SDK -->
+        <get dest="${cache.dir}" verbose="true" skipexisting="true">
+            <url url="${touch.src}" />
+        </get>
+
+        <unzip dest="${cache.dir}">
+            <fileset dir="${cache.dir}">
+                <include name="*.zip"/>
+            </fileset>
+        </unzip>
+
+        <!-- Deploy Sencha Touch -->
+        <copy todir="${app.dir}/touch" includeEmptyDirs="false">
+            <fileset dir="${cache.dir}/touch-${touch.version}">
+                <exclude name="docs/**/*" />
+                <exclude name="examples/**/*"/>
+            </fileset>
+        </copy>
+
+        <!--delete dir="${cache.dir}"/-->
+    </target>
+</project>

@@ -1,3 +1,15 @@
+# Touch SDK
+/example/touch/
+
+# Generated directories
+.ux-ant-cache/
+.sass-cache/
+.sencha_backup/
+/example/archive
+/example/build
+
+# Generated files
+/application/resources/css/
+
+# MISC
 .DS_Store
-build
-archive

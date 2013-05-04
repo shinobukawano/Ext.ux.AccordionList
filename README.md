@@ -1,19 +1,23 @@
-Ext.ux.AccordionList
-=======
+# Ext.ux.AccordionList
 
-Accordion list with using Ext.data.TreeStore. You can use expand and collapse contents by header item tap. And also it can nested infinity!
+Sencha Touch 2 custom component.
 
-about
------
+Collapsible List with using Ext.data.TreeStore. You can use expand and collapse contents by header item tap. And also it can nested infinity!
 
-This is Senca Touch 2 custom component.
+## Demo
 
-To see a current working demo, visit http://accordionlist.senchafy.com on a mobile device or Google Chrome or Safari.
 
-Getting Started
----------------
+## Document
 
-All you need to do is place the 'ux' folder somewhere within your application, then add the following to your app (at the top of 'app.js' is a good place)::
+API:
+
+Guide:
+
+## Getting Started
+
+### Initialization
+
+Place the 'ux' folder somewhere within your application, then add the following to your app (at the top of 'app.js' is a good place)::
 
     Ext.Loader.setPath({
         'Ext': 'touch/src',
@@ -29,17 +33,19 @@ Then in whatever component you wish to use the view, add::
         'Ext.ux.AccordionList',
     ]
 
-For a more complete example, see `app/view/Main.js`.
-
-2.1 with Sencha Cmd
--------------------
-
-Before build package, you must define "${add.dir}/ux" to sencha.cfg
+Before build package, you must define "${add.dir}/ux" to sencha.cfg::
 
     app.classpath=${app.dir}/app.js,${app.dir}/ux,${app.dir}/app
 
-license
--------
+### Example
 
-Copyright (c) 2012 Shinobu Kawano. This software is licensed under the MIT License.
+Execute the following command in the sources root directory
+
+    <pre>sencha ant -f project.xml initialize</pre>
+
+Then to place example directory to server's application directory.
+
+## license
+
+Copyright (c) 2013 Shinobu Kawano. This software is licensed under the MIT License.
 
