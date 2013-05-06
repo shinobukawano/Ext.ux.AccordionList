@@ -40,11 +40,14 @@ Ext.define('AccordionListExample.view.Main', {
                     },
                     {
                         xtype: 'accordionlist',
-                        store: Ext.create('AccordionListExample.store.Task', {
-                            autoLoad: true
-                        }),
+                        store: Ext.create('AccordionListExample.store.Task'),
                         flex: 1,
-                        itemId: 'task'
+                        itemId: 'task',
+                        listeners: {
+                            initialize: function() {
+                                this.load();
+                            }
+                        }
                     }
                 ],
                 control: {

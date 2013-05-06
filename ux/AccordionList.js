@@ -436,8 +436,15 @@ Ext.define('Ext.ux.AccordionList', {
         store.onNodeBeforeExpand = function() {
             // Do nothing.
         };
-        if (store.getConfig('autoLoad') === true) {
-            store.load();
+
+        if (store.getAutoLoad()) {
+            Ext.defer(function() {
+                var list = this.getList(),
+                    tmp = list.getLoadingText();
+                list.setLoadingText(null);
+                store.load();
+                list.setLoadingText(tmp);
+            }, 500, this);
         }
         return store;
     }
