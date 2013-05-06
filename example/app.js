@@ -19,6 +19,11 @@ Ext.Loader.setPath({
     'Ext.ux': '../ux',
     'AccordionListExample': 'app'
 });
+// Ext.Loader.setConfig({ disableCaching: false });
+// Ext.require([
+//     'Ext.ux.AccordionList',
+//     'Ext.*'
+// ]);
 //</debug>
 
 Ext.application({

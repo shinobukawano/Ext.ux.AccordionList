@@ -8,8 +8,6 @@ Collapsible List with using Ext.data.TreeStore. You can expand and collapse cont
 
 [![2](image2.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image2.png)
 
-[![3](image3.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image3.png)
-
 ## Demo
 
 - [Ext.ux.AccordionList Example](http://docs.kawanoshinobu.com/accordionlist)
@@ -17,7 +15,6 @@ Collapsible List with using Ext.data.TreeStore. You can expand and collapse cont
 ## Document
 
 - [http://docs.kawanoshinobu.com/touch/#!/api/Ext.ux.AccordionList](http://docs.kawanoshinobu.com/touch/#!/api/Ext.ux.AccordionList)
-- [Using Ext.ux.AccordionList](http://docs.kawanoshinobu.com/touch/#!/guide/accordionlist)
 
 ## Getting Started
 
@@ -57,6 +54,16 @@ Execute the following command in the sources root directory
 
 Then to place example directory to server's application directory.
 
+## Test
+
+You can execute Jasmine and PhantomJS based unit test.
+
+Example command line:
+
+    phantomjs test/run-jasmine.js http://localhost:3333/Ext.ux.AccordionList/test/SpecRunner.html
+
+You will need to run the tests from a web server because XHR's cannot be made from the file:// protocol
+
 ## Version
 
 1.0
@@ -69,7 +76,8 @@ Then to place example directory to server's application directory.
 * Refactoring code
 * Add some utility config (headerItemCls, contentItemCls, useSelectedHighlights)
 * Add new example
-* Created API documentation and Usage Guide.
+* Add Jasmine and Phantomjs based unit test
+* Created API documentation
 
 ## license
 

@@ -14,4 +14,5 @@ Ext.define('AccordionListExample.store.Task', {
             url: 'resources/data/testData.json'
         }
     }
+
 });

@@ -5,6 +5,74 @@
  *  Also it can nested infinity.
  *
  *  @author KAWANO Shinobu <http://kawanoshinobu.com>
+ *
+ *  Simple example:
+ *
+ *     @example miniphone preview
+ *      var data = {
+ *         "items" : [{
+ *               "text" : "Today",
+ *               "items" : [{
+ *                           "text" : "Eat",
+ *                           "leaf" : true
+ *                       }, {
+ *                           "text" : "Sleep",
+ *                           "leaf" : true
+ *                       }, {
+ *                           "text" : "Drinking",
+ *                           "leaf" : true
+ *                       }]
+ *           }, {
+ *               "text" : "Tomorrow",
+ *               "items" : [{
+ *                           "text" : "Watch TV",
+ *                           "leaf" : true
+ *                       }, {
+ *                           "text" : "Watch Video",
+ *                           "leaf" : true
+ *                       }]
+ *           }, {
+ *               "text" : "This week",
+ *               "items" : [{
+ *                           "text" : "Shopping",
+ *                           "leaf" : true
+ *                       }]
+ *           }, {
+ *               "text" : "Later",
+ *               "items" : [{
+ *                           "text" : "Eat",
+ *                           "leaf" : true
+ *                       }, {
+ *                           "text" : "Sleep",
+ *                           "leaf" : true
+ *                       }, {
+ *                           "text" : "Drinking",
+ *                           "leaf" : true
+ *                       }]
+ *           }]
+ *      };
+ *
+ *      Ext.define('Task', {
+ *          extend: 'Ext.data.Model',
+ *          config: {
+ *              fields: [{
+ *                  name: 'text',
+ *                  type: 'string'
+ *              }]
+ *          }
+ *      });
+ *
+ *      var store = Ext.create('Ext.data.TreeStore', {
+ *          model: 'Task',
+ *          defaultRootProperty: 'items',
+ *          root: data
+ *      });
+ *
+ *      var accordionList = Ext.create('Ext.ux.AccordionList', {
+ *          fullscreen: true,
+ *          store: store
+ *      });
+ *
  */
 Ext.define('Ext.ux.AccordionList', {
     extend: 'Ext.Container',
@@ -17,44 +85,52 @@ Ext.define('Ext.ux.AccordionList', {
 
     config: {
         /**
-         * @cfg {String} cls
+         * @cfg {String/String[]} cls
+         * The CSS class to add to this component's element.
          */
         cls: Ext.baseCSSPrefix + 'accordion-list',
 
         /**
          * @cfg {String} headerItemCls
+         * The CSS class to add to this header item's element.
          */
         headerItemCls: Ext.baseCSSPrefix + 'accordion-list-header',
 
         /**
          * @cfg {String} contentItemCls
+         * The CSS class to add to this header item's element.
          */
         contentItemCls: Ext.baseCSSPrefix + 'accordion-list-content',
 
         /**
-         * @cfg {Object} layout
+         * @cfg {String/Object} layout
+         * Default layout config.
          */
         layout: {
             type: 'fit'
         },
 
         /**
-         * @cfg {Ext.data.TreeStore} store
+         * @cfg {Ext.data.TreeStore/Object} store
+         * Store instanse or tree store'a data object.
          */
         store: null,
 
         /**
          * @cfg {String} displayField
+         * Defaults template's display field.
          */
         displayField: 'text',
 
         /**
          * @cfg {Boolean} scrollable
+         * List's default listScrollable config.
          */
         listScrollable: true,
 
         /**
          * @cfg {String} headerItemTpl
+         * Header item's html template.
          */
         headerItemTpl: [
             '<tpl if="this.isExpanded(values)">',
@@ -66,26 +142,31 @@ Ext.define('Ext.ux.AccordionList', {
 
         /**
          * @cfg {String} headerCloseTpl
+         * Header item's html template which it closing.
          */
         headerCloseTpl: '<div class="right"></div><div>{0}</div>',
 
         /**
          * @cfg {String} headerOpenTpl
+         * Header item's html template which it opening.
          */
         headerOpenTpl: '<div class="down"></div><div>{0}</div>',
 
         /**
          * @cfg {String} contentItemTpl
+         * Content item's html template.
          */
         contentItemTpl: '{0}',
 
         /**
          * @cfg {Boolean} defaultExpanded
+         * Whether items all expanded or not.
          */
         defaultExpanded: false,
 
         /**
          * @cfg {Boolean} useSelectedHighlights
+         * Whether selected items highlights or not.
          */
         useSelectedHighlights: true,
 
@@ -110,43 +191,6 @@ Ext.define('Ext.ux.AccordionList', {
         if (me.getDefaultExpanded()) {
             me.doAllExpand();
         }
-    },
-
-    /**
-     * Expand all of contents.
-     */
-    doAllExpand: function() {
-        var me = this;
-        me.doAll(function expand(node) {
-            node.expand();
-            if (!node.isLeaf()) {
-                node.childNodes.forEach(expand, me);
-            }
-        });
-    },
-
-    /**
-     * Collapse all of contents.
-     */
-    doAllCollapse: function() {
-        var me = this;
-        me.doAll(function collapse(node) {
-            node.collapse();
-            if (!node.isLeaf()) {
-                node.childNodes.forEach(collapse, me);
-            }
-        });
-    },
-
-    /**
-     * @private
-     * @param  {Function} updater
-     */
-    doAll: function(updater) {
-        var me = this,
-            list = me.getList(),
-            store = list.getStore();
-        store.each(updater, me);
     },
 
     /**
@@ -237,6 +281,75 @@ Ext.define('Ext.ux.AccordionList', {
      },
 
     /**
+     * Loads data into the store.
+     */
+    load: function() {
+        this.getStore().load();
+    },
+
+    /**
+     * Remove all items from the store.
+     */
+    removeAll: function() {
+        this.getStore().removeAll();
+    },
+
+    /**
+     * Gets the number of cached records.
+     * @return {Number}
+     */
+    getCount: function() {
+        var store = this.getStore();
+        return Ext.isEmpty(store) ? 0 : store.getCount();
+    },
+
+    /**
+     * Gets the number of all records.
+     * @return {Number}
+     */
+    getAllCount: function() {
+        var store = this.getStore();
+        return Ext.isEmpty(store) ? 0 : store.getAllCount();
+    },
+
+    /**
+     * Expand all of contents.
+     */
+    doAllExpand: function() {
+        var me = this;
+        me.doAll(function expand(node) {
+            node.expand();
+            if (!node.isLeaf()) {
+                node.childNodes.forEach(expand, me);
+            }
+        });
+    },
+
+    /**
+     * Collapse all of contents.
+     */
+    doAllCollapse: function() {
+        var me = this;
+        me.doAll(function collapse(node) {
+            node.collapse();
+            if (!node.isLeaf()) {
+                node.childNodes.forEach(collapse, me);
+            }
+        });
+    },
+
+    /**
+     * @private
+     * @param  {Function} updater
+     */
+    doAll: function(updater) {
+        var me = this,
+            list = me.getList(),
+            store = list.getStore();
+        store.each(updater, me);
+    },
+
+    /**
      * @private
      * @param  {Ext.dataview.List} list
      */
@@ -323,7 +436,9 @@ Ext.define('Ext.ux.AccordionList', {
         store.onNodeBeforeExpand = function() {
             // Do nothing.
         };
-        store.load();
+        if (store.getConfig('autoLoad') === true) {
+            store.load();
+        }
         return store;
     }
 

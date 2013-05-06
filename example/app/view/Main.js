@@ -40,7 +40,9 @@ Ext.define('AccordionListExample.view.Main', {
                     },
                     {
                         xtype: 'accordionlist',
-                        store: Ext.create('AccordionListExample.store.Task'),
+                        store: Ext.create('AccordionListExample.store.Task', {
+                            autoLoad: true
+                        }),
                         flex: 1,
                         itemId: 'task'
                     }
@@ -109,6 +111,7 @@ Ext.define('AccordionListExample.view.Main', {
                         itemId: 'PL',
                         listeners: {
                             initialize: function() {
+                                this.load();
                                 this.addCls('PL-view');
                             }
                         }
