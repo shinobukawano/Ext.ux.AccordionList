@@ -169,7 +169,7 @@ Ext.define('Ext.ux.AccordionList', {
          * Whether selected items highlights or not.
          */
         useSelectedHighlights: true,
-   
+
         /**
          * @cfg {Boolean} singleMode
          * Whether to only show one expanded list at a time.
@@ -403,7 +403,6 @@ Ext.define('Ext.ux.AccordionList', {
             }
             else {
                 if(me.getSingleMode()) {
-                    console.log("collapse?");
                     me.doAllCollapse();
                 }
                 
