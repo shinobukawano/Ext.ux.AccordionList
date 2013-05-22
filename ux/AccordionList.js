@@ -405,7 +405,7 @@ Ext.define('Ext.ux.AccordionList', {
                 if(me.getSingleMode()) {
                     me.doAllCollapse();
                 }
-                
+
                 node.expand();
             }
         }

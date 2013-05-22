@@ -110,6 +110,7 @@ Ext.define('AccordionListExample.view.Main', {
                             '</div>'
                         ].join(''),
                         useSelectedHighlights: false,
+                        singleMode: false,
                         flex: 1,
                         itemId: 'PL',
                         listeners: {
