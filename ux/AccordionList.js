@@ -345,6 +345,19 @@ Ext.define('Ext.ux.AccordionList', {
     },
 
     /**
+     * Collapse all of contents with single mode.
+     * @param  {Number} depth
+     */
+    doAllCollapseWithSingleMode: function(depth) {
+        var me = this;
+        me.doAll(function collapse(node) {
+            if (node.data.depth === depth) {
+                node.collapse();
+            }
+        });
+    },
+
+    /**
      * @private
      * @param  {Function} updater
      */
@@ -403,9 +416,8 @@ Ext.define('Ext.ux.AccordionList', {
             }
             else {
                 if(me.getSingleMode()) {
-                    me.doAllCollapse();
+                    me.doAllCollapseWithSingleMode(record.data.depth);
                 }
-
                 node.expand();
             }
         }
