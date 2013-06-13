@@ -176,6 +176,12 @@ Ext.define('Ext.ux.AccordionList', {
          */
         singleMode: true,
 
+        /**
+         * @cfg {Boolean} animation
+         * Whether to use animation when item is expanded.
+         */
+        animation: true,
+
         // @private
         list: null
     },
@@ -236,6 +242,7 @@ Ext.define('Ext.ux.AccordionList', {
 
             list = Ext.create('Ext.dataview.List', {
                 itemTpl: itemTpl,
+                itemHeight : 'auto',
                 scrollToTopOnRefresh: false
             });
 
@@ -391,16 +398,22 @@ Ext.define('Ext.ux.AccordionList', {
 
     /**
      * Called when an list item has been tapped
-     * @param {Ext.List} list The subList the item is on
-     * @param {Number} index The id of the item tapped
-     * @param {Ext.Element} target The list item tapped
-     * @param {Ext.data.Record} record The record whichw as tapped
-     * @param {Ext.event.Event} e The event
+     * @param  {Ext.List} list The subList the item is on
+     * @param  {Number} index The id of the item tapped
+     * @param  {Ext.Element} target The list item tapped
+     * @param  {Ext.data.Record} record The record whichw as tapped
+     * @param  {Ext.event.Event} e The event
      */
     onItemTap: function(list, index, target, record, e) {
         var me = this,
             store = list.getStore(),
             node = store.getAt(index);
+
+        me.scrollToSelectedItem();
+
+        if (me.getAnimation()) {
+            me.readyAnimation(list, index, target, record, e);
+        }
 
         me.fireEvent('itemtap',
             me, list, index, target, record, e);
@@ -423,6 +436,95 @@ Ext.define('Ext.ux.AccordionList', {
         }
     },
 
+    // @private
+    // http://siva-technology.blogspot.pt/2013/03/sencha-touch-scroll-to-selected-item-on.html
+    // Position list item
+    scrollToSelectedItem: function() {
+        var me = this,
+            list = me.getList(),
+            store = list.getStore(),
+            selected = list.getSelection()[0],
+            idx = store.indexOf(selected),
+            map = list.getItemMap(),
+            offset = map.map[idx];
+
+        list.getScrollable().getScroller().scrollTo(0, offset);
+    },
+
+    /**
+     * @private
+     * @param  {Ext.dataview.List} list
+     * @param  {Number} index
+     * @param  {Ext.Element} target
+     * @param  {Ext.data.Record} record
+     * @param  {Ext.event.Event} e
+     */
+    readyAnimation : function(list, index, target, record, e){
+        var me = this,
+            id = record.getId();
+
+        me.loadedTaps = me.loadedTaps || {};
+
+        if (me.loadedTaps[id]) {
+             return;
+        } else {
+            me.loadedTaps[id] = true;
+        }
+
+        var parentItem = list.getStore().getAt(index);
+        me.addListExpandListeners(parentItem);
+    },
+
+    /**
+     * @private
+     * @param  {Ext.data.Model} parent
+     */
+    addListExpandListeners: function(parent) {
+        var me = this;
+        parent.setListeners({
+            expand: me.onExpandWithAnimation,
+            scope: me
+        });
+    },
+
+    /**
+     * @private
+     * @param  {Ext.data.Model} parent
+     */
+    onExpandWithAnimation: function(parent) {
+        var me = this,
+            list = me.getList();
+
+        Ext.each(parent.childNodes, function(el) {
+            var item = list.getItemAt(list.getStore().indexOf(el));
+            item.hide();
+            if (el.get('expanded')){
+                me.addListExpandListeners(item, list);
+                el.collapse();
+                el.expand();
+            }
+        });
+
+        Ext.each(parent.childNodes, function(el){
+            var item = list.getItemAt(list.getStore().indexOf(el));
+            try {
+                item.show({
+                    easing: 'easeInOut',
+                    duration: 800,
+                    autoClear: true,
+                    from: {
+                        opacity: 0,
+                        height:'0px'
+                    },
+                    to: {
+                        opacity: 1,
+                        height:'51px'
+                    }
+                });
+            } catch(e) {}
+        });
+    },
+
     /**
      * HACK: See. Can not able to load json data in Sencha touch 2.1 Accordionlist
      *       http://www.sencha.com/forum/showthread.php?253032-Can-not-able-to-load-json-data-in-Sencha-touch-2.1-Accordionlist
@@ -436,6 +538,8 @@ Ext.define('Ext.ux.AccordionList', {
                 records = operation.getRecords(),
                 successful = operation.wasSuccessful(),
                 node = operation.getNode();
+
+            me.loadedTaps = {}; // Reset
 
             node.beginEdit();
             node.set('loading', false);
