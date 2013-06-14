@@ -94,6 +94,7 @@ Ext.define('AccordionListExample.view.Main', {
                         itemId: 'task',
                         singleMode: true,
                         animation: true,
+                        animationDuration: 300,
                         showCount: true,
                         listeners: {
                             initialize: function() {

@@ -193,6 +193,12 @@ Ext.define('Ext.ux.AccordionList', {
         animation: false,
 
         /**
+         * @cfg {Number} animationDuration
+         * Animation duration time (ms). This is used when item expand.
+         */
+        animationDuration: 800,
+
+        /**
          * @cfg {Boolean} showCount
          * Whether to show item's count in the header.
          */
@@ -280,6 +286,12 @@ Ext.define('Ext.ux.AccordionList', {
         list.setStore(newStore);
     },
 
+    /**
+     * @private
+     * @param  {Ext.data.Store} store
+     * @param  {Ext.data.Model} records
+     * @param  {Boolean} successful
+     */
     onLoadStore: function(store, records, successful) {
         if (successful === false) {
             return;
@@ -287,6 +299,10 @@ Ext.define('Ext.ux.AccordionList', {
         this.setCountToRecords(records);
     },
 
+    /**
+     * @private
+     * @param  {Ext.data.Model} records
+     */
     setCountToRecords: function(records) {
         var me = this;
 
@@ -379,6 +395,9 @@ Ext.define('Ext.ux.AccordionList', {
     doAllExpand: function() {
         var me = this;
         me.doAll(function expand(node) {
+            if (me.getAnimation()) {
+                me.addListExpandListeners(node);
+            }
             node.expand();
             if (!node.isLeaf()) {
                 node.childNodes.forEach(expand, me);
@@ -505,19 +524,10 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Number} index
      * @param  {Ext.Element} target
      * @param  {Ext.data.Record} record
-     * @param  {Ext.event.Event} e
      */
-    readyAnimation : function(list, index, target, record, e){
+    readyAnimation : function(list, index, target, record){
         var me = this,
             id = record.getId();
-
-        me.loadedTaps = me.loadedTaps || {};
-
-        if (me.loadedTaps[id]) {
-             return;
-        } else {
-            me.loadedTaps[id] = true;
-        }
 
         var parentItem = list.getStore().getAt(index);
         me.addListExpandListeners(parentItem);
@@ -529,6 +539,15 @@ Ext.define('Ext.ux.AccordionList', {
      */
     addListExpandListeners: function(parent) {
         var me = this;
+
+       me.loadedTaps = me.loadedTaps || {};
+
+        if (me.loadedTaps[parent.id]) {
+             return;
+        } else {
+            me.loadedTaps[parent.id] = true;
+        }
+
         parent.setListeners({
             expand: me.onExpandWithAnimation,
             scope: me
@@ -558,7 +577,7 @@ Ext.define('Ext.ux.AccordionList', {
             try {
                 item.show({
                     easing: 'easeInOut',
-                    duration: 800,
+                    duration: me.getAnimationDuration(),
                     autoClear: true,
                     from: {
                         opacity: 0,
