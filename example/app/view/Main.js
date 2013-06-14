@@ -64,6 +64,58 @@ Ext.define('AccordionListExample.view.Main', {
                 }
             },
             {
+                title: 'Decorate',
+                iconCls: 'star',
+                layout: 'vbox',
+                items: [
+                    {
+                        xtype: 'toolbar',
+                        items: [
+                            {
+                                xtype: 'segmentedbutton',
+                                centered: true,
+                                items: [
+                                    {
+                                        text: 'Expand',
+                                        action: 'expand'
+                                    },
+                                    {
+                                        text: 'Collapse',
+                                        action: 'collapse'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'accordionlist',
+                        store: Ext.create('AccordionListExample.store.Task'),
+                        flex: 1,
+                        itemId: 'task',
+                        singleMode: true,
+                        animation: true,
+                        showCount: true,
+                        listeners: {
+                            initialize: function() {
+                                this.load();
+                            }
+                        }
+                    }
+                ],
+                control: {
+                    'button[action=expand]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllExpand();
+                        }
+                    },
+                     'button[action=collapse]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllCollapse();
+                        }
+                    }
+                }
+            },
+            {
                 title: 'Nested',
                 iconCls: 'chart',
                 layout: 'vbox',
@@ -110,6 +162,7 @@ Ext.define('AccordionListExample.view.Main', {
                             '</div>'
                         ].join(''),
                         useSelectedHighlights: false,
+                        showCount: true,
                         flex: 1,
                         itemId: 'PL',
                         listeners: {

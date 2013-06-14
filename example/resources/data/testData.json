@@ -22,10 +22,7 @@
                         }]
             }, {
                 "text" : "This week",
-                "items" : [{
-                            "text" : "Shopping",
-                            "leaf" : true
-                        }]
+                "items" : []
             }, {
                 "text" : "Later",
                 "items" : [{

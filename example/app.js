@@ -16,7 +16,7 @@
 //<debug>
 Ext.Loader.setPath({
     'Ext': 'touch/src',
-    'Ext.ux': '../ux',
+    'Ext.ux': '../src/ux',
     'AccordionListExample': 'app'
 });
 // Ext.Loader.setConfig({ disableCaching: false });

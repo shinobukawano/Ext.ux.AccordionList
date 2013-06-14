@@ -159,6 +159,16 @@ Ext.define('Ext.ux.AccordionList', {
         contentItemTpl: '{0}',
 
         /**
+         * @cfg {String} countTpl
+         * Content item count html template.
+         */
+        countTpl: [
+            '<div class="', Ext.baseCSSPrefix, 'accordion-list-count" ',
+                 'style="position:absolute; right:0; margin-right: 1em;">',
+                '{0}',
+            '</div>'].join(''),
+
+        /**
          * @cfg {Boolean} defaultExpanded
          * Whether items all expanded or not.
          */
@@ -174,13 +184,19 @@ Ext.define('Ext.ux.AccordionList', {
          * @cfg {Boolean} singleMode
          * Whether to only show one expanded list at a time.
          */
-        singleMode: true,
+        singleMode: false,
 
         /**
          * @cfg {Boolean} animation
          * Whether to use animation when item is expanded.
          */
-        animation: true,
+        animation: false,
+
+        /**
+         * @cfg {Boolean} showCount
+         * Whether to show item's count in the header.
+         */
+        showCount: false,
 
         // @private
         list: null
@@ -233,6 +249,7 @@ Ext.define('Ext.ux.AccordionList', {
                     me.makeContentTemplate(),
                 '<tpl else>',
                     me.makeHeaderTemplate(),
+                    me.getShowCount() ? me.makeCountTpl() : '',
                 '</tpl>',
                 {
                     isExpanded: function(values) {
@@ -258,7 +275,30 @@ Ext.define('Ext.ux.AccordionList', {
             me.add(list);
         }
 
+        newStore.on('load', me.onLoadStore, me);
+
         list.setStore(newStore);
+    },
+
+    onLoadStore: function(store, records, successful) {
+        if (successful === false) {
+            return;
+        }
+        this.setCountToRecords(records);
+    },
+
+    setCountToRecords: function(records) {
+        var me = this;
+
+        (records || []).forEach(function setCount(record) {
+            if (record.hasChildNodes()) {
+                record.set('cnt', record.childNodes.length);
+                record.childNodes.forEach(setCount);
+            }
+            else {
+                record.set('cnt', 0);
+            }
+        });
     },
 
     /**
@@ -281,6 +321,14 @@ Ext.define('Ext.ux.AccordionList', {
         var me = this,
             displayField = me.getDisplayField();
         return Ext.String.format(me.getContentItemTpl(), displayField);
+    },
+
+    /**
+     * @private
+     * @return {String}
+     */
+    makeCountTpl: function() {
+        return Ext.String.format(this.getCountTpl(), '{cnt}');
     },
 
      /**
