@@ -75,6 +75,7 @@ You will need to run the tests from a web server because XHR's cannot be made fr
 * Add singleMode feature
 * Add animation feature
 * Add showCount feature
+* Add new example (decorate)
 
 [2013-05-05] **v1.0.0** KAWANO Shinobu (kawanoshinobu)
 
