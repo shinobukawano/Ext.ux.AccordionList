@@ -66,9 +66,15 @@ You will need to run the tests from a web server because XHR's cannot be made fr
 
 ## Version
 
-1.0
+1.0.1
 
 ## Change log
+
+[2013-06-15] **v1.0.1** KAWANO Shinobu (kawanoshinobu)
+
+* Add singleMode feature
+* Add animation feature
+* Add showCount feature
 
 [2013-05-05] **v1.0.0** KAWANO Shinobu (kawanoshinobu)
 

@@ -164,6 +164,8 @@ Ext.define('AccordionListExample.view.Main', {
                         ].join(''),
                         useSelectedHighlights: false,
                         showCount: true,
+                        animation: true,
+                        animationDuration: 300,
                         flex: 1,
                         itemId: 'PL',
                         listeners: {
