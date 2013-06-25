@@ -6,9 +6,14 @@ Ext.define('AccordionListExample.controller.Task', {
         },
         control: {
             'accordionlist': {
+                itemtap: 'onItemTap',
                 leafitemtap: 'onLeafItemTap'
             }
         }
+    },
+
+    onItemTap: function(self, list, index, target, record) {
+        // console.log(record.get('text'));
     },
 
     onLeafItemTap: function(list, index, target, record) {

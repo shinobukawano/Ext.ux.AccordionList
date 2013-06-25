@@ -188,6 +188,46 @@ Ext.define('AccordionListExample.view.Main', {
                         }
                     }
                 }
+            },
+            {
+                title: 'BigData',
+                iconCls: 'battery',
+                layout: 'vbox',
+                items: [
+                    {
+                        xtype: 'accordionlist',
+                        store: Ext.create('AccordionListExample.store.BigTask'),
+                        listPlugins: [
+                            {
+                                xclass: 'Ext.plugin.ListPaging',
+                                autoPaging: true
+                            },
+                            {
+                                xclass: 'Ext.plugin.PullRefresh',
+                                pullRefreshText: 'Pull down for more data!'
+                            }
+                        ],
+                        flex: 1,
+                        itemId: 'task',
+                        listeners: {
+                            initialize: function() {
+                                this.load();
+                            }
+                        }
+                    }
+                ],
+                control: {
+                    'button[action=expand]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllExpand();
+                        }
+                    },
+                     'button[action=collapse]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllCollapse();
+                        }
+                    }
+                }
             }
         ]
     }

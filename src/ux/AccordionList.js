@@ -205,7 +205,13 @@ Ext.define('Ext.ux.AccordionList', {
         showCount: false,
 
         // @private
-        list: null
+        list: null,
+
+        /**
+         * @cfg {Array} listPlugins
+         * Sets list's plugin config.
+         */
+        listPlugins: []
     },
 
     /**
@@ -266,7 +272,8 @@ Ext.define('Ext.ux.AccordionList', {
             list = Ext.create('Ext.dataview.List', {
                 itemTpl: itemTpl,
                 itemHeight : 'auto',
-                scrollToTopOnRefresh: false
+                scrollToTopOnRefresh: false,
+                plugins: me.getListPlugins()
             });
 
             if (me.getUseSelectedHighlights() === false) {
