@@ -4,7 +4,9 @@ Ext.define('AccordionListExample.view.Main', {
     requires: [
         'Ext.TitleBar',
         'Ext.SegmentedButton',
-        'Ext.ux.AccordionList'
+        'Ext.ux.AccordionList',
+        'Ext.plugin.ListPaging',
+        'Ext.plugin.PullRefresh'
     ],
     config: {
         tabBarPosition: 'bottom',
@@ -190,23 +192,25 @@ Ext.define('AccordionListExample.view.Main', {
                 }
             },
             {
-                title: 'BigData',
-                iconCls: 'battery',
+                title: 'Paging',
+                iconCls: 'bird',
                 layout: 'vbox',
                 items: [
                     {
                         xtype: 'accordionlist',
                         store: Ext.create('AccordionListExample.store.BigTask'),
-                        listPlugins: [
-                            {
-                                xclass: 'Ext.plugin.ListPaging',
-                                autoPaging: true
-                            },
-                            {
-                                xclass: 'Ext.plugin.PullRefresh',
-                                pullRefreshText: 'Pull down for more data!'
-                            }
-                        ],
+                        listConfig: {
+                            plugins: [
+                                {
+                                    xclass: 'Ext.plugin.ListPaging',
+                                    autoPaging: true
+                                },
+                                {
+                                    xclass: 'Ext.plugin.PullRefresh',
+                                    pullRefreshText: 'Pull down for more data!'
+                                }
+                            ]
+                        },
                         flex: 1,
                         itemId: 'task',
                         listeners: {

@@ -208,10 +208,10 @@ Ext.define('Ext.ux.AccordionList', {
         list: null,
 
         /**
-         * @cfg {Array} listPlugins
-         * Sets list's plugin config.
+         * @cfg {Object} listConfig
+         * Sets list's config.
          */
-        listPlugins: []
+        listConfig: null
     },
 
     /**
@@ -269,12 +269,11 @@ Ext.define('Ext.ux.AccordionList', {
                     }
                 });
 
-            list = Ext.create('Ext.dataview.List', {
+            list = Ext.create('Ext.dataview.List', Ext.Object.merge({
                 itemTpl: itemTpl,
                 itemHeight : 'auto',
-                scrollToTopOnRefresh: false,
-                plugins: me.getListPlugins()
-            });
+                scrollToTopOnRefresh: false
+            }, me.getListConfig()));
 
             if (me.getUseSelectedHighlights() === false) {
                 list.setSelectedCls('');
@@ -551,7 +550,8 @@ Ext.define('Ext.ux.AccordionList', {
 
         if (me.loadedTaps[parent.id]) {
              return;
-        } else {
+        }
+        else {
             me.loadedTaps[parent.id] = true;
         }
 

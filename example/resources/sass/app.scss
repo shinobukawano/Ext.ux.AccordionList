@@ -10,15 +10,15 @@
 // @include icon('user');
 
 @include icon('chart');
-@include icon('battery');
+@include icon('bird');
 
 @import 'stylesheets/accordionlist';
 @include accordionlist;
 
 .PL-view {
     .x-accordion-list-header {
-        background-color: #157fcc;
-        border-top: 1px solid #157fcc;
+        background-color: #7f8c8d;
+        border-top: 1px solid #7f8c8d;
         color: #fff;
 
         .down {
