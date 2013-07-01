@@ -637,6 +637,8 @@ Ext.define('Ext.ux.AccordionList', {
             // Do nothing.
         };
 
+        store.setClearOnLoad(false);
+
         if (store.getAutoLoad()) {
             Ext.defer(function() {
                 var list = this.getList(),
