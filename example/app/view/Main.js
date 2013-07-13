@@ -45,6 +45,9 @@ Ext.define('AccordionListExample.view.Main', {
                         store: Ext.create('AccordionListExample.store.Task'),
                         flex: 1,
                         itemId: 'task',
+                        // useComponents: true,
+                        // headerItemType: 'headerlistitem',
+                        // contentItemType: 'contentlistitem',
                         listeners: {
                             initialize: function() {
                                 this.load();
@@ -215,7 +218,6 @@ Ext.define('AccordionListExample.view.Main', {
                         },
                         flex: 1,
                         itemId: 'task',
-                        indent: true,
                         listeners: {
                             initialize: function() {
                                 this.load();

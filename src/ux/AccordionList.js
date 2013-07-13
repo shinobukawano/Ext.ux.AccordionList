@@ -217,7 +217,13 @@ Ext.define('Ext.ux.AccordionList', {
          * @cfg {Boolean} indent
          * Whether to indent child items.
          */
-        indent: false
+        indent: false,
+
+        useComponents: false,
+
+        headerItemType: null,
+
+        contentItemType: null
     },
 
     /**
@@ -259,33 +265,52 @@ Ext.define('Ext.ux.AccordionList', {
     updateStore: function(newStore, oldStore) {
         var me = this,
             list = me.getList(),
-            itemTpl;
-
-        if (!list) {
-            itemTpl = new Ext.XTemplate(
-                '<tpl if="leaf">',
-                    me.makeContentTemplate(),
-                '<tpl else>',
-                    me.makeHeaderTemplate(),
-                    me.getShowCount() ? me.makeCountTpl() : '',
-                '</tpl>',
-                {
-                    isExpanded: function(values) {
-                        return values.expanded;
-                    }
-                });
-
-            var defaultConfig = {
-                itemTpl: itemTpl,
+            defaultConfig = {
                 scrollToTopOnRefresh: false
             };
 
+        if (!list) {
+            if (me.getUseComponents()) {
+                Ext.Object.merge(defaultConfig, {
+                    useComponents: true
+                });
+            }
+            else {
+                Ext.Object.merge(defaultConfig, {
+                    itemTpl: new Ext.XTemplate(
+                        '<tpl if="leaf">',
+                            me.makeContentTemplate(),
+                        '<tpl else>',
+                            me.makeHeaderTemplate(),
+                            me.getShowCount() ? me.makeCountTpl() : '',
+                        '</tpl>',
+                        {
+                            isExpanded: function(values) {
+                                return values.expanded;
+                            }
+                        })
+                });
+            }
+
             if (me.getAnimation()) {
-                defaultConfig.itemHeight = 'auto';
+                Ext.Object.merge(defaultConfig, {
+                    itemHeight: 'auto'
+                });
             }
 
             list = Ext.create('Ext.dataview.List', Ext.Object.merge(
                 defaultConfig, me.getListConfig()));
+
+            // if (me.getUseComponents()) {
+            //     list.updateListItem = Ext.Function.interceptBefore(list, 'updateListItem', function(item, index, info) {
+            //         var record = info.store.getAt(index);
+            //         if (record.get('leaf')) {
+            //             list.setDefaultType(me.getHeaderItemType());
+            //         } else {
+            //             list.setDefaultType(me.getContentItemType());
+            //         }
+            //     });
+            // }
 
             if (me.getUseSelectedHighlights() === false) {
                 list.setSelectedCls('');
@@ -511,7 +536,6 @@ Ext.define('Ext.ux.AccordionList', {
         if (node.isLeaf()) {
             me.fireEvent('leafitemtap',
                 list, index, target, record, e);
-
         }
         else {
             if (node.isExpanded()) {

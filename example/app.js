@@ -42,7 +42,9 @@ Ext.application({
     ],
 
     views: [
-        'Main'
+        'Main',
+        'HeaderListItem',
+        'ContentListItem'
     ],
 
     controllers: [
