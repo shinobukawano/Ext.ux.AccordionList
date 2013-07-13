@@ -17,7 +17,7 @@ Ext.define('AccordionListExample.view.Main', {
                 docked: 'top'
             },
             {
-                title: 'Simple',
+                title: 'Plain',
                 iconCls: 'list',
                 layout: 'vbox',
                 items: [
@@ -96,8 +96,9 @@ Ext.define('AccordionListExample.view.Main', {
                         itemId: 'task',
                         singleMode: true,
                         animation: true,
-                        animationDuration: 300,
+                        animationDuration: 500,
                         showCount: true,
+                        indent: true,
                         listeners: {
                             initialize: function() {
                                 this.load();
@@ -167,6 +168,7 @@ Ext.define('AccordionListExample.view.Main', {
                         useSelectedHighlights: false,
                         showCount: true,
                         animation: true,
+                        indent: true,
                         animationDuration: 300,
                         flex: 1,
                         itemId: 'PL',
@@ -213,6 +215,7 @@ Ext.define('AccordionListExample.view.Main', {
                         },
                         flex: 1,
                         itemId: 'task',
+                        indent: true,
                         listeners: {
                             initialize: function() {
                                 this.load();

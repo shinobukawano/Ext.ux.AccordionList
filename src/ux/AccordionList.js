@@ -211,7 +211,13 @@ Ext.define('Ext.ux.AccordionList', {
          * @cfg {Object} listConfig
          * Sets list's config.
          */
-        listConfig: null
+        listConfig: null,
+
+        /**
+         * @cfg {Boolean} indent
+         * Whether to indent child items.
+         */
+        indent: false
     },
 
     /**
@@ -269,10 +275,17 @@ Ext.define('Ext.ux.AccordionList', {
                     }
                 });
 
-            list = Ext.create('Ext.dataview.List', Ext.Object.merge({
+            var defaultConfig = {
                 itemTpl: itemTpl,
                 scrollToTopOnRefresh: false
-            }, me.getListConfig()));
+            };
+
+            if (me.getAnimation()) {
+                defaultConfig.itemHeight = 'auto';
+            }
+
+            list = Ext.create('Ext.dataview.List', Ext.Object.merge(
+                defaultConfig, me.getListConfig()));
 
             if (me.getUseSelectedHighlights() === false) {
                 list.setSelectedCls('');
@@ -468,6 +481,10 @@ Ext.define('Ext.ux.AccordionList', {
                 item.addCls(isLeaf ? contentCls : headerCls);
             }
         }
+
+        if (me.getIndent()) {
+            me.doIndent();
+        }
     },
 
     /**
@@ -507,9 +524,17 @@ Ext.define('Ext.ux.AccordionList', {
                 node.expand();
             }
         }
+
+        if (me.getIndent()) {
+            me.doIndent();
+        }
     },
 
     onItemIndexChange: function(list, record, index, item) {
+        var me = this;
+        if (me.getIndent()) {
+            me.doIndent();
+        }
     },
 
     /**
@@ -602,6 +627,25 @@ Ext.define('Ext.ux.AccordionList', {
                 });
             } catch(e) {}
         });
+    },
+
+    doIndent: function() {
+        var me = this,
+            list = me.getList();
+
+        var items = list.listItems,
+            ln = items.length,
+            i, item, record, elem, indent;
+
+        for (i = 0; i < ln; i++) {
+            item = items[i];
+            record = item.getRecord();
+            if (!Ext.isEmpty(record)) {
+                elem = item.element.down('.x-innerhtml');
+                indent = ((record.getDepth() + 0.5) -1) + 'em';
+                elem.dom.style.setProperty('padding-left', indent);
+            }
+        }
     },
 
     /**
