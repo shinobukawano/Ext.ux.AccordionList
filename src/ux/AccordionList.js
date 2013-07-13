@@ -271,7 +271,6 @@ Ext.define('Ext.ux.AccordionList', {
 
             list = Ext.create('Ext.dataview.List', Ext.Object.merge({
                 itemTpl: itemTpl,
-                itemHeight : 'auto',
                 scrollToTopOnRefresh: false
             }, me.getListConfig()));
 
@@ -281,7 +280,7 @@ Ext.define('Ext.ux.AccordionList', {
 
             list.on('itemtap', me.onItemTap, me);
             list.on('refresh', me.onListRefresh, me);
-
+            list.on('itemindexchange', me.onItemIndexChange, me);
             me.setList(list);
             list.setScrollable(me.getListScrollable());
             me.add(list);
@@ -463,9 +462,11 @@ Ext.define('Ext.ux.AccordionList', {
         for (i = 0; i < ln; i++) {
             item = items[i];
             record = item.getRecord();
-            isLeaf = record.get('leaf');
-            item.removeCls(isLeaf ? headerCls : contentCls);
-            item.addCls(isLeaf ? contentCls : headerCls);
+            if (!Ext.isEmpty(record)) {
+                isLeaf = record.get('leaf');
+                item.removeCls(isLeaf ? headerCls : contentCls);
+                item.addCls(isLeaf ? contentCls : headerCls);
+            }
         }
     },
 
@@ -482,9 +483,8 @@ Ext.define('Ext.ux.AccordionList', {
             store = list.getStore(),
             node = store.getAt(index);
 
-        me.scrollToSelectedItem();
-
         if (me.getAnimation()) {
+            me.scrollToSelectedItem();
             me.readyAnimation(list, index, target, record, e);
         }
 
@@ -509,9 +509,14 @@ Ext.define('Ext.ux.AccordionList', {
         }
     },
 
-    // @private
-    // http://siva-technology.blogspot.pt/2013/03/sencha-touch-scroll-to-selected-item-on.html
-    // Position list item
+    onItemIndexChange: function(list, record, index, item) {
+    },
+
+    /**
+     * @private
+     * http://siva-technology.blogspot.pt/2013/03/sencha-touch-scroll-to-selected-item-on.html
+     * Position list item
+     */
     scrollToSelectedItem: function() {
         var me = this,
             list = me.getList(),
