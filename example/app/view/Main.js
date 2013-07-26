@@ -46,8 +46,6 @@ Ext.define('AccordionListExample.view.Main', {
                         flex: 1,
                         itemId: 'task',
                         // useComponents: true,
-                        // headerItemType: 'headerlistitem',
-                        // contentItemType: 'contentlistitem',
                         listeners: {
                             initialize: function() {
                                 this.load();
