@@ -1,8 +1,10 @@
 # Ext.ux.AccordionList
 
-Sencha Touch 2 custom component.
+Custom component for Sencha Touch 2.
 
-Collapsible List with using Ext.data.TreeStore. You can expand and collapse contents by header item tap. Also it can nested infinity.
+Collapsible List with Ext.data.TreeStore. You can expand and collapse contents by header item tap. Also it can nested infinity.
+
+This component was introduced at [Sencha Insight #6](http://us6.campaign-archive2.com/?u=35c628e5bf74b167e4791ffb8&id=f36913f231)
 
 [![1](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image1.png)
 
@@ -63,6 +65,56 @@ Example command line:
     phantomjs test/run-jasmine.js http://localhost:3333/Ext.ux.AccordionList/test/SpecRunner.html
 
 You will need to run the tests from a web server because XHR's cannot be made from the file:// protocol
+
+## useComponents
+
+You can add component into header item and content item. In first, you must create a class which extends "Ext.ux.AccordionListItem". Then, define dataMap for header item and content item. Way of define is same to dataMap of Ext.dataview.DataItem.
+
+    Ext.define('AccordionListExample.view.ListItem', {
+        extend: 'Ext.ux.AccordionListItem',
+        xtype : 'examplelistitem',
+
+        config: {
+            ...
+
+            headerDataMap: {
+                getText: {
+                    setHtml: 'text'
+                },
+                getButton: {
+                    setIconCls: 'icon'
+                }
+            },
+            contentDataMap: {
+                getLimit: {
+                    setValue: 'limit'
+                },
+                getMessage: {
+                    setValue: 'message'
+                }
+            }
+
+You created data item class. Next, you specify use this in your view config.
+
+            {
+                xtype: 'accordionlist',
+                store: Ext.create('AccordionListExample.store.Components'),
+                flex: 1,
+                indent: true,
+
+                // Specify useComponents.
+                useComponents: true,
+                // Specify data item's xtype you created.
+                defaultType: 'examplelistitem',
+
+                listeners: {
+                    initialize: function() {
+                        this.load();
+                    }
+                }
+            }
+
+That's ok. Accordion List appears components bound items. You can check it at example site.
 
 ## Version
 
