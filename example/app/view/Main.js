@@ -44,8 +44,7 @@ Ext.define('AccordionListExample.view.Main', {
                         xtype: 'accordionlist',
                         store: Ext.create('AccordionListExample.store.Task'),
                         flex: 1,
-                        itemId: 'task',
-                        // useComponents: true,
+                        itemId: 'plain',
                         listeners: {
                             initialize: function() {
                                 this.load();
@@ -94,12 +93,12 @@ Ext.define('AccordionListExample.view.Main', {
                         xtype: 'accordionlist',
                         store: Ext.create('AccordionListExample.store.Task'),
                         flex: 1,
-                        itemId: 'task',
                         singleMode: true,
                         animation: true,
                         animationDuration: 500,
                         showCount: true,
                         indent: true,
+                        itemId: 'decorate',
                         listeners: {
                             initialize: function() {
                                 this.load();
@@ -172,7 +171,7 @@ Ext.define('AccordionListExample.view.Main', {
                         indent: true,
                         animationDuration: 300,
                         flex: 1,
-                        itemId: 'PL',
+                        itemId: 'nested',
                         listeners: {
                             initialize: function() {
                                 this.load();
@@ -215,7 +214,7 @@ Ext.define('AccordionListExample.view.Main', {
                             ]
                         },
                         flex: 1,
-                        itemId: 'task',
+                        itemId: 'paging',
                         listeners: {
                             initialize: function() {
                                 this.load();
@@ -235,7 +234,60 @@ Ext.define('AccordionListExample.view.Main', {
                         }
                     }
                 }
+            },
+            {
+                title: 'Components',
+                iconCls: 'box',
+                layout: 'vbox',
+                items: [
+                    {
+                        xtype: 'toolbar',
+                        items: [
+                            {
+                                xtype: 'segmentedbutton',
+                                centered: true,
+                                items: [
+                                    {
+                                        text: 'Expand',
+                                        action: 'expand'
+                                    },
+                                    {
+                                        text: 'Collapse',
+                                        action: 'collapse'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'accordionlist',
+                        store: Ext.create('AccordionListExample.store.Components'),
+                        flex: 1,
+                        indent: true,
+                        useComponents: true,
+                        defaultType: 'examplelistitem',
+                        listeners: {
+                            initialize: function() {
+                                this.load();
+                                this.addCls('components-view');
+                            }
+                        }
+                    }
+                ],
+                control: {
+                    'button[action=expand]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllExpand();
+                        }
+                    },
+                     'button[action=collapse]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllCollapse();
+                        }
+                    }
+                }
             }
         ]
     }
+
 });

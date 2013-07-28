@@ -32,19 +32,20 @@ Ext.application({
     requires: [
         'Ext.MessageBox',
         'AccordionListExample.store.Task',
+        'AccordionListExample.store.PL',
         'AccordionListExample.store.BigTask',
-        'AccordionListExample.store.PL'
+        'AccordionListExample.store.Components'
     ],
 
     models:[
         'Task',
-        'PL'
+        'PL',
+        'Components'
     ],
 
     views: [
         'Main',
-        'HeaderListItem',
-        'ContentListItem'
+        'ListItem'
     ],
 
     controllers: [

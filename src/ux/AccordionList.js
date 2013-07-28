@@ -81,8 +81,7 @@ Ext.define('Ext.ux.AccordionList', {
 
     requires: [
         'Ext.dataview.List',
-        'Ext.ux.AccordionListItem',
-        'Ext.ux.AccordionListItem2'
+        'Ext.ux.AccordionListItem'
     ],
 
     config: {
@@ -223,7 +222,18 @@ Ext.define('Ext.ux.AccordionList', {
          */
         indent: false,
 
-        useComponents: false
+        /**
+         * @cfg {Boolean} indent
+         * Flag the use a component based DataView implementation.
+         */
+        useComponents: false,
+
+        /**
+         * @cfg {String} indent
+         * The xtype used for the component based DataView.
+         * You must specify accordionlistitem's sub class.
+         */
+        defaultType: 'accordionlistitem'
     },
 
     /**
@@ -274,6 +284,10 @@ Ext.define('Ext.ux.AccordionList', {
         list.setStore(newStore);
     },
 
+    /**
+     * @private
+     * @return {Ext.dataview.List}
+     */
     readyList: function() {
         var me = this;
         var config = me.makeListConfig();
@@ -286,6 +300,10 @@ Ext.define('Ext.ux.AccordionList', {
         return list;
     },
 
+    /**
+     * @private
+     * @return {Object}
+     */
     makeListConfig: function() {
         var me = this,
             defaultConfig = {
@@ -311,6 +329,11 @@ Ext.define('Ext.ux.AccordionList', {
         return config;
     },
 
+    /**
+     * @private
+     * @param  {Object} config
+     * @return {Object}
+     */
     makeElementListConfig: function(config) {
         var me = this;
 
@@ -334,55 +357,29 @@ Ext.define('Ext.ux.AccordionList', {
         return config;
     },
 
+    /**
+     * @private
+     * @param  {Object} config
+     * @return {Object}
+     */
     makeComponentListConfig: function(config) {
         var me = this;
 
         Ext.Object.merge(config, {
             useComponents: true,
-            defaultType: 'accordionlistitem',
+            defaultType: me.getDefaultType(),
+            itemTpl: '',
             useSimpleItems: false
         });
 
         return config;
     },
 
-    createItem: function(config) {
-        var me = this,
-            container = me.container,
-            listItems = me.listItems,
-            infinite = me.getInfinite(),
-            scrollElement = me.scrollElement,
-            item, header, itemCls;
-
-        console.log(config);
-        item = Ext.factory(config);
-        console.log(item);
-        item.dataview = me;
-        item.$height = config.minHeight;
-
-        header = item.getHeader();
-
-        if (!infinite) {
-            itemCls = me.getBaseCls() + '-item-relative';
-            item.addCls(itemCls);
-            header.addCls(itemCls);
-        }
-        else {
-            header.setTranslatable({
-                translationMethod: this.translationMethod
-            });
-            header.translate(0, -10000);
-
-            scrollElement.insertFirst(header.renderElement);
-        }
-
-        container.doAdd(item);
-        listItems.push(item);
-
-        return item;
-    },
-
-    applyMoreListSetting: function() {
+    /**
+     * @private
+     * @param  {Ext.dataview.List} list
+     */
+    applyMoreListSetting: function(list) {
         var me = this;
 
         if (me.getUseSelectedHighlights() === false) {
@@ -390,16 +387,34 @@ Ext.define('Ext.ux.AccordionList', {
         }
 
         if (me.getUseComponents()) {
-            // list.createItem = me.createItem;
-        }
-        else {
-            list.on('itemtap', me.onItemTap, me);
+            me.applyItemTapPatch(list);
         }
 
         list.on('itemtap', me.onItemTap, me);
         list.on('refresh', me.onListRefresh, me);
         list.on('itemindexchange', me.onItemIndexChange, me);
         list.setScrollable(me.getListScrollable());
+    },
+
+    /**
+     * @private
+     * @param  {Ext.dataview.List} list
+     */
+    applyItemTapPatch: function (list) {
+        var parseEvent = function (e) {
+            var me = this,
+                target = Ext.fly(e.getTarget()).findParent('.' + 'accordion-list-item', 8),
+                item = Ext.getCmp(target.id);
+
+            return [me, item, item.$dataIndex, e];
+        };
+        list.parseEvent = parseEvent;
+
+        list.on({
+            element: 'element',
+            delegate: '.accordion-list-item',
+            tap: list.onItemTap
+        });
     },
 
     /**

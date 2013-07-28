@@ -5,15 +5,19 @@ Ext.define('AccordionListExample.controller.Task', {
         refs: {
         },
         control: {
-            'accordionlist': {
-                itemtap: 'onItemTap',
+            'accordionlist[itemId=plain]': {
+                leafitemtap: 'onLeafItemTap'
+            },
+            'accordionlist[itemId=decorate]': {
+                leafitemtap: 'onLeafItemTap'
+            },
+             'accordionlist[itemId=nested]': {
+                leafitemtap: 'onLeafItemTap'
+            },
+            'accordionlist[itemId=paging]': {
                 leafitemtap: 'onLeafItemTap'
             }
         }
-    },
-
-    onItemTap: function(self, list, index, target, record) {
-        // console.log(record.get('text'));
     },
 
     onLeafItemTap: function(list, index, target, record) {

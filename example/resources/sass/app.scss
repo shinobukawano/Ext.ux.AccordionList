@@ -11,6 +11,8 @@
 
 @include icon('chart');
 @include icon('bird');
+@include icon('box');
+@include icon('add2');
 
 @import 'stylesheets/accordionlist';
 @include accordionlist;
@@ -30,3 +32,34 @@
         }
     }
 }
+
+.components-view {
+    .accordion-list-item {
+        background: #ecf0f1;
+        padding-top: .6em;
+        border-bottom: #ddd solid 1px;
+
+        .x-button-plain {
+            color: #2c3e50;
+        }
+
+        &.x-accordion-list-content {
+            padding-bottom: .6em;
+        }
+
+        .x-field {
+            border-top: solid 1px #ccc;
+            border-left: solid 1px #ccc;
+            border-right: solid 1px #ccc;
+            margin-right: .6em;
+        }
+
+        .x-field-textarea {
+            border-bottom: solid 1px #ccc;
+        }
+
+    }
+}
+
+
+

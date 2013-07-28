@@ -1,0 +1,10 @@
+{
+  "name": "Ext.ux.AccordionList",
+  "version": "1.0.1",
+  "description": "",
+  "repository": "https://github.com/kawanoshinobu/Ext.ux.AccordionList",
+  "author": "KAWANO Shinobu",
+  "license": "MIT",
+  "devDependencies": {
+  }
+}

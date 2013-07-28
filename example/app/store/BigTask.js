@@ -12,7 +12,6 @@ Ext.define('AccordionListExample.store.BigTask', {
         proxy: {
             type: 'jsonp',
             url: 'http://kawanoshinobu-api.herokuapp.com/task',
-            // url: 'http://localhost:5000/task',
             reader: {
                 type: 'json',
                 rootProperty: 'items'

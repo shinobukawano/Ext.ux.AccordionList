@@ -1,0 +1,58 @@
+{
+    "items" : [{
+                "text" : "Project A",
+                "icon": "add2",
+                "items": [
+                    {
+                        "text" : "Team A",
+                        "icon": "add2",
+                        "items": [{
+                            "limit": "2013/07/27",
+                            "message": "Hello.",
+                            "leaf" : true
+                        }, {
+                            "limit": "2013/07/28",
+                            "message": "Good-Bye.",
+                            "leaf" : true
+                        }]
+                    },
+                    {
+                        "text" : "Team B",
+                        "icon": "add2",
+                        "items": [{
+                            "limit": "2013/07/27",
+                            "message": "Hello.",
+                            "leaf" : true
+                        }, {
+                            "limit": "2013/07/28",
+                            "message": "Good-Bye.",
+                            "leaf" : true
+                        }]
+                    }
+                ]
+            }, {
+                "text" : "Project B",
+                "icon": "add2",
+                "items" : [{
+                            "limit": "2013/08/27",
+                            "message": "Hello.",
+                            "leaf" : true
+                        }, {
+                            "limit": "2013/08/28",
+                            "message": "Good-Bye.",
+                            "leaf" : true
+                        }]
+            }, {
+                "text" : "Project C",
+                "icon": "add2",
+                "items" : [{
+                            "limit": "2013/09/27",
+                            "message": "Hello.",
+                            "leaf" : true
+                        }, {
+                            "limit": "2013/09/28",
+                            "message": "Good-Bye.",
+                            "leaf" : true
+                        }]
+            }]
+}

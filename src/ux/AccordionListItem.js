@@ -1,90 +1,93 @@
 /**
  * A AccordionListItem is a container for Ext.ux.AccordionList with
- * useSimpleItems: false.
- *
- * ListItem configures and updates the {@link Ext.data.Model records} for
- * the sub-component items in a list.
- *
- * Overwrite the `updateRecord()` method to set a sub-component's value.
- * Sencha Touch calls `updateRecord()` whenever the data in the list updates.
- *
- * The `updatedata` event fires after `updateRecord()` runs.
- *
- * *Note*: Use of ListItem increases overhead since it generates more markup than
- * using the List class with useSimpleItems: true. This overhead is more
- * noticeable in Internet Explorer. If at all possible, use
- * {@link Ext.dataview.component.SimpleListItem} instead.
+ * useComponent: true.
  *
  * The following example shows how to configure and update sub-component items
  * in a list:
  *
- *     Ext.define('Twitter.view.TweetListItem', {
- *         extend: 'Ext.dataview.component.ListItem',
- *         xtype : 'tweetlistitem',
- *         requires: [
- *             'Ext.Img'
- *         ],
- *         config: {
- *             userName: {
- *                 cls: 'username'
- *             },
- *             text: {
- *                 cls: 'text'
- *             },
- *             avatar: {
- *                 docked: 'left',
- *                 xtype : 'image',
- *                 cls   : 'avatar',
- *                 width: '48px',
- *                 height: '48px'
- *             },
- *             layout: {
- *                 type: 'vbox'
- *             }
- *         },
+ *  Ext.define('AccordionListExample.view.ListItem', {
+ *      extend: 'Ext.ux.AccordionListItem',
+ *      xtype : 'examplelistitem',
  *
- *         applyUserName: function(config) {
- *             return Ext.factory(config, Ext.Component, this.getUserName());
- *         },
+ *      config: {
+ *          layout: {
+ *              type: 'vbox'
+ *          },
  *
- *         updateUserName: function(newUserName) {
- *             if (newUserName) {
- *                 this.insert(0, newUserName);
- *             }
- *         },
+ *          text: {
+ *          },
+ *          button: {
+ *              iconMask: true,
+ *              docked: 'right',
+ *          },
+ *          message: {
+ *              docked: 'bottom',
+ *              label: 'message'
+ *          },
+ *          limit: {
+ *              docked: 'top',
+ *              label: 'limit'
+ *          },
  *
- *         applyText: function(config) {
- *             return Ext.factory(config, Twitter.view.TweetListItemText, this.getText());
- *         },
+ *          headerDataMap: {
+ *              getText: {
+ *                  setHtml: 'text'
+ *              },
+ *              getButton: {
+ *                  setIconCls: 'icon'
+ *              }
+ *          },
  *
- *         updateText: function(newText) {
- *             if (newText) {
- *                 this.add(newText);
- *             }
- *         },
+ *          contentDataMap: {
+ *              getLimit: {
+ *                  setValue: 'limit'
+ *              },
+ *              getMessage: {
+ *                  setValue: 'message'
+ *              }
+ *          }
+ *      },
  *
- *         applyAvatar: function(config) {
- *             return Ext.factory(config, Ext.Img, this.getAvatar());
- *         },
+ *      applyText: function(config) {
+ *          return Ext.factory(config, Ext.Component);
+ *      },
  *
- *         updateAvatar: function(newAvatar) {
- *             if (newAvatar) {
- *                 this.add(newAvatar);
- *             }
- *         },
+ *      updateText: function(newText) {
+ *          if (newText) {
+ *              this.add(newText);
+ *          }
+ *      },
  *
- *         updateRecord: function(record) {
- *             if (!record) {
- *                 return;
- *             }
+ *      applyButton: function(config) {
+ *          return Ext.factory(config, Ext.Button);
+ *      },
  *
- *             this.getUserName().setHtml(record.get('username'));
- *             this.getText().setHtml(record.get('text'));
- *             this.getAvatar().setSrc(record.get('avatar_url'));
- *             this.callParent(arguments);
+ *      updateButton: function(newButton) {
+ *          if (newButton) {
+ *              this.add(newButton);
+ *          }
+ *      },
  *
- *         }
- *     });
+ *      applyLimit: function(config) {
+ *          return Ext.factory(config, Ext.field.DatePicker);
+ *      },
+ *
+ *      updateLimit: function(newDay) {
+ *          if (newDay) {
+ *              this.add(newDay);
+ *          }
+ *      },
+ *
+ *      applyMessage: function(config) {
+ *          return Ext.factory(config, Ext.field.TextArea);
+ *      },
+ *
+ *      updateMessage: function(newMessage) {
+ *          if (newMessage) {
+ *              this.add(newMessage);
+ *          }
+ *      }
+ *  });
  *
  */
 Ext.define('Ext.ux.AccordionListItem', {
@@ -92,29 +95,139 @@ Ext.define('Ext.ux.AccordionListItem', {
     xtype : 'accordionlistitem',
 
     config: {
-        baseCls: Ext.baseCSSPrefix + 'accordion-list-item',
-        text: '',
-        dataMap: {
-            getText: {
-                setHtml: 'text'
-            }
+        baseCls: 'accordion-list-item',  // Do not override this property!
+
+        /**
+         * @cfg {String/Object} layout
+         * Default layout config.
+         */
+        layout: {
+            type: 'hbox'
+        },
+
+        /**
+         * @cfg {Boolean} indent
+         * Whether to indent child items.
+         */
+        indent: false,
+
+        /**
+         * @cfg {Object} headerDataMap
+         * Defines header item's dataMap
+         */
+        headerDataMap: {},
+
+        /**
+         * @cfg {String/Object} layout
+         * Defines content item's dataMap
+         */
+        contentDataMap: {},
+
+        // @private
+        itemMark: {
+            docked: 'left'
         }
     },
 
     /**
      * @param  {Object} config
      */
-    applyText: function(config) {
+    applyItemMark: function(config) {
         return Ext.factory(config, Ext.Component);
     },
 
     /**
-     * @param  {Ext.Component} newName
+     * @param  {Ext.Component} newItemMark
      */
-    updateText: function(newText) {
-        if (newText) {
-            this.add(newText);
+    updateItemMark: function(newItemMark) {
+        if (newItemMark) {
+            this.add(newItemMark);
         }
+    },
+
+    /**
+     * @override
+     * @param newRecord
+     */
+    updateRecord: function(record) {
+        var me = this,
+            dataview = me.dataview || this.getDataview(),
+            data = record && dataview.prepareData(record.getData(true), dataview.getStore().indexOf(record), record),
+            body = this.getBody(),
+            dataMap;
+
+        me._record = record;
+
+        var leaf = record && record.isLeaf(),
+            expanded = record && record.isExpanded(),
+            depth = record ? record.getDepth() : 0;
+
+        if (leaf) {
+            dataMap = me.getContentDataMap();
+        }
+        else {
+            dataMap = me.getHeaderDataMap();
+        }
+
+        me.doMapData(dataMap, data, body);
+        me.doUpdateItemMark(expanded, leaf);
+        me.toggle(leaf);
+
+        /**
+         * @event updatedata
+         * Fires whenever the data of the DataItem is updated.
+         * @param {Ext.dataview.component.DataItem} this The DataItem instance.
+         * @param {Object} newData The new data.
+         */
+        me.fireEvent('updatedata', me, data);
+    },
+
+    /**
+     * @private
+     * @param  {Boolean} expanded
+     * @param  {Boolean} leaf
+     */
+    doUpdateItemMark: function (expanded, leaf) {
+        var me = this,
+            itemMark = me.getItemMark();
+
+        if (Ext.isEmpty(expanded)) {
+            return;
+        }
+
+        var downMark = '<div class="down"></down>',
+            rightMark = '<div class="right"></div>';
+
+        itemMark.setHtml(leaf ? '' : expanded ? downMark : rightMark);
+
+        if (me.getIndent()) {
+            itemMark.setStyle('padding-left:' + depth + 'em;');
+        }
+    },
+
+    /**
+     * @private
+     * @param  {Boolean} leaf
+     */
+    toggle: function (leaf) {
+        var me = this;
+        me.doHiddenComponents(me.getHeaderDataMap(), leaf);
+        me.doHiddenComponents(me.getContentDataMap(), !leaf);
+    },
+
+    /**
+     * @private
+     * @param  {Object} map
+     * @param  {Boolean} hidden
+     */
+    doHiddenComponents: function (map, hidden) {
+        var me = this;
+        Ext.Object.each(map, function (key, value) {
+            var component = me[key]();
+            if (component) {
+                component.setHidden(hidden);
+            }
+        });
     }
 
 });
