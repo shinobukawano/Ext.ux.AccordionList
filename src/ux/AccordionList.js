@@ -780,7 +780,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @return {Ext.data.TreeStore}
      */
     patchStore: function(store) {
-    	var me = this;
+        var me = this;
         store.onProxyLoad = function(operation) {
             var records = operation.getRecords(),
                 successful = operation.wasSuccessful(),
@@ -798,7 +798,11 @@ Ext.define('Ext.ux.AccordionList', {
             this.loading = false;
             this.loaded = true;
 
+            // Model event
             node.fireEvent('load', node, records, successful);
+            // Store event
+            this.fireEvent('load', this, records, successful, operation);
+            // Ext.ux.AccordionList event
             me.fireEvent('load', this, records, successful, operation);
 
             // this is a callback that would have been passed to the 'read' function and is
