@@ -780,9 +780,9 @@ Ext.define('Ext.ux.AccordionList', {
      * @return {Ext.data.TreeStore}
      */
     patchStore: function(store) {
+    	var me = this;
         store.onProxyLoad = function(operation) {
-            var me = this,
-                records = operation.getRecords(),
+            var records = operation.getRecords(),
                 successful = operation.wasSuccessful(),
                 node = operation.getNode();
 
@@ -791,12 +791,12 @@ Ext.define('Ext.ux.AccordionList', {
             node.beginEdit();
             node.set('loading', false);
             if (successful) {
-                records = me.fillNode(node, records);
+                records = this.fillNode(node, records);
             }
             node.endEdit();
             this.updateNode(node);
-            me.loading = false;
-            me.loaded = true;
+            this.loading = false;
+            this.loaded = true;
 
             node.fireEvent('load', node, records, successful);
             me.fireEvent('load', this, records, successful, operation);
