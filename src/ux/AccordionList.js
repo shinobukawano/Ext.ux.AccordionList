@@ -618,8 +618,11 @@ Ext.define('Ext.ux.AccordionList', {
             me.readyAnimation(list, index, target, record, e);
         }
 
-        me.fireEvent('itemtap',
-            me, list, index, target, record, e);
+        if (!me.fireEvent('itemtap', me, list, index, target, record, e))
+    	{
+		// if any of the event handlers return 'false', we cancel processing of the tap
+        	return;
+    	}
 
         if (node.isLeaf()) {
             me.fireEvent('leafitemtap',
