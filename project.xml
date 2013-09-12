@@ -6,7 +6,7 @@
 
     <property name="cache.dir" location=".ux-ant-cache"/>
 
-    <property name="touch.version" value="2.2.0"/>
+    <property name="touch.version" value="2.2.1"/>
 
     <property name="touch.src" value="http://cdn.sencha.io/touch/sencha-touch-${touch.version}-gpl.zip"/>
 

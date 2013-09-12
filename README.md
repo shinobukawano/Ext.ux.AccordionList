@@ -54,6 +54,10 @@ Execute the following command in the sources root directory
 
     sencha ant -f project.xml initialize
 
+And compile .scss file.
+
+    compass compile example/resources/sass/
+
 Then to place example directory to server's application directory.
 
 ## Test
