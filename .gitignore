@@ -5,7 +5,6 @@
 .ux-ant-cache/
 .sass-cache/
 .sencha_backup/
-/example/resources/css
 /example/archive
 /example/build
 
