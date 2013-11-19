@@ -209,7 +209,7 @@ Ext.define('AccordionListExample.view.Main', {
                                 },
                                 {
                                     xclass: 'Ext.plugin.PullRefresh',
-                                    pullRefreshText: 'Pull down for more data!'
+                                    pullText: 'Pull down for more data!'
                                 }
                             ]
                         },
@@ -286,8 +286,103 @@ Ext.define('AccordionListExample.view.Main', {
                         }
                     }
                 }
+            },
+            {
+                title: 'Grouped',
+                iconCls: 'user',
+                layout: 'vbox',
+                items: [
+                    {
+                        xtype: 'toolbar',
+                        items: [
+                            {
+                                xtype: 'segmentedbutton',
+                                centered: true,
+                                items: [
+                                    {
+                                        text: 'Expand',
+                                        action: 'expand'
+                                    },
+                                    {
+                                        text: 'Collapse',
+                                        action: 'collapse'
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        xtype: 'accordionlist',
+                        store: Ext.create('AccordionListExample.store.Grouped'),
+                        flex: 1,
+                        showCount: true,
+                        indent: true,
+                        itemId: 'grouped',
+                        indexBar: {
+                            margin:1,
+                            listeners: {
+                                index: function (html, target, eOpts) {
+                                    console.log('inside indexbar', target);
+                                }
+                            }
+                        }
+                        // XXX: This is very very slow...
+                        // listeners: {
+                        //     initialize: function() {
+                        //         this.load();
+                        //     }
+                        // }
+                    }
+                ],
+                control: {
+                    'button[action=expand]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllExpand();
+                        }
+                    },
+                     'button[action=collapse]': {
+                        tap: function() {
+                            this.down('accordionlist').doAllCollapse();
+                        }
+                    }
+                }
             }
-        ]
+        ],
+        listeners: {
+            'activeitemchange': function(self, newItem) {
+                var me    = this,
+                    list  = newItem.down('accordionlist'),
+                    store = list.getStore();
+
+                if (store.getCount() === 0) {
+                    me.setMasked({
+                        xtype: 'loadmask'
+                    });
+                    store.on('load', function() {
+                        me.setMasked(false);
+                    }, me, { single: true });
+                    store.load();
+                }
+            }
+        }
     }
 
 });
+
+// If you use index bar, it might be better to override
+// Ext.dataview.List scroolToRecord in case of record is empty.
+Ext.define('Override.dataview.List', {
+    override : 'Ext.dataview.List',
+    scrollToRecord: function(record, animate, overscroll) {
+        var me = this,
+            store = me.getStore(),
+            index = store.indexOf(record);
+
+        item = me.listItems[index];
+
+        if (item) {
+            me.callParent(arguments);
+        }
+    }
+});
+

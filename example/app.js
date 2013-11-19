@@ -34,7 +34,8 @@ Ext.application({
         'AccordionListExample.store.Task',
         'AccordionListExample.store.PL',
         'AccordionListExample.store.BigTask',
-        'AccordionListExample.store.Components'
+        'AccordionListExample.store.Components',
+        'AccordionListExample.store.Grouped'
     ],
 
     models:[

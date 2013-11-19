@@ -233,7 +233,14 @@ Ext.define('Ext.ux.AccordionList', {
          * The xtype used for the component based DataView.
          * You must specify accordionlistitem's sub class.
          */
-        defaultType: 'accordionlistitem'
+        defaultType: 'accordionlistitem',
+
+        /**
+         * @cfg {Boolean/Object} indexBar
+         * `true` to render an alphabet IndexBar docked on the right.
+         * This can also be a config object that will be passed to {@link Ext.IndexBar}.
+         */
+         indexBar: null
     },
 
     /**
@@ -321,6 +328,13 @@ Ext.define('Ext.ux.AccordionList', {
         if (me.getAnimation()) {
             Ext.Object.merge(config, {
                 itemHeight: 'auto'
+            });
+        }
+
+        var indexBar = me.getIndexBar();
+        if (!Ext.isEmpty(indexBar)) {
+            Ext.Object.merge(config, {
+                indexBar  : indexBar
             });
         }
 
