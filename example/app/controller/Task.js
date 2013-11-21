@@ -16,6 +16,9 @@ Ext.define('AccordionListExample.controller.Task', {
             },
             'accordionlist[itemId=paging]': {
                 leafitemtap: 'onLeafItemTap'
+            },
+            'accordionlist[itemId=grouped]': {
+                leafitemtap: 'onLeafItemTap'
             }
         }
     },

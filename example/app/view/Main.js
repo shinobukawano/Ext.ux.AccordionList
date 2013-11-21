@@ -10,6 +10,9 @@ Ext.define('AccordionListExample.view.Main', {
     ],
     config: {
         tabBarPosition: 'bottom',
+        tabBar: {
+            scrollable : 'horizontal'
+        },
         items: [
             {
                 xtype: 'titlebar',
@@ -349,7 +352,8 @@ Ext.define('AccordionListExample.view.Main', {
             }
         ],
         listeners: {
-            'activeitemchange': function(self, newItem) {
+            // XXX: For grouped accordionList
+            activeitemchange: function(self, newItem) {
                 var me    = this,
                     list  = newItem.down('accordionlist'),
                     store = list.getStore();
@@ -361,7 +365,11 @@ Ext.define('AccordionListExample.view.Main', {
                     store.on('load', function() {
                         me.setMasked(false);
                     }, me, { single: true });
-                    store.load();
+                    store.load({
+                        callback: function() {
+                            list.getList().refresh();
+                        }
+                    });
                 }
             }
         }

@@ -334,7 +334,8 @@ Ext.define('Ext.ux.AccordionList', {
         var indexBar = me.getIndexBar();
         if (!Ext.isEmpty(indexBar)) {
             Ext.Object.merge(config, {
-                indexBar  : indexBar
+                indexBar: indexBar,
+                grouped : true
             });
         }
 

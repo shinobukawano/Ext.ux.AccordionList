@@ -2,79 +2,31 @@
     "items" : [{
                 "text" : "Apple",
                 "items" : [{
-                            "text" : "Eat",
+                            "text" : "Safari",
                             "leaf" : true
                         }]
             }, {
-                "text" : "Dandelion",
+                "text" : "Google",
                 "items" : [{
-                            "text" : "Eat",
+                            "text" : "Chrome",
                             "leaf" : true
                         }]
             }, {
-                "text" : "Funny",
+                "text" : "Mozilla",
                 "items" : [{
-                            "text" : "Watch TV",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "Great",
-                "items" : [{
-                            "text" : "Watch TV",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "Hello",
-                "items" : [{
-                            "text" : "Eat",
-                            "leaf" : true
-                        }]
-            },{
-                "text" : "Japan",
-                "items" : [{
-                            "text" : "Eat",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "King",
-                "items" : [{
-                            "text" : "Watch TV",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "List",
-                "items" : [{
-                            "text" : "Watch TV",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "Moon",
-                "items" : [{
-                            "text" : "Eat",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "Nothing",
-                "items" : [{
-                            "text" : "Eat",
+                            "text" : "Firefox",
                             "leaf" : true
                         }]
             }, {
                 "text" : "Opera",
                 "items" : [{
-                            "text" : "Watch TV",
-                            "leaf" : true
-                        }]
-            }, {
-                "text" : "Table",
-                "items" : [{
-                            "text" : "Watch TV",
+                            "text" : "Opera",
                             "leaf" : true
                         }]
             }, {
                 "text" : "Zero",
                 "items" : [{
-                            "text" : "Eat",
+                            "text" : "IE",
                             "leaf" : true
                         }]
             }]
