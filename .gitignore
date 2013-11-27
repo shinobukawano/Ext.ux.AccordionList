@@ -1,12 +1,12 @@
 # Touch SDK
-/example/touch/
+/examples/touch/
 
 # Generated directories
 .ux-ant-cache/
 .sass-cache/
 .sencha_backup/
-/example/archive
-/example/build
+/examples/archive
+/examples/build
 
 # Generated files
 /application/resources/css/

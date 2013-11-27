@@ -1,10 +1,34 @@
 {
-  "name": "Ext.ux.AccordionList",
-  "version": "1.0.1",
-  "description": "",
-  "repository": "https://github.com/kawanoshinobu/Ext.ux.AccordionList",
-  "author": "KAWANO Shinobu",
-  "license": "MIT",
-  "devDependencies": {
-  }
+    "name": "Ext.ux.AccordionList",
+    "version": "1.1.0",
+    "repository": "https://github.com/kawanoshinobu/Ext.ux.AccordionList",
+    "license": "MIT",
+    "type": "code",
+    "creator": "Shinobu Kawano",
+    "summary": "Accordion List for Sencha Touch 2",
+    "detailedDescription": "Collapsible List with Ext.data.TreeStore. You can expand and collapse contents by header item tap. Also it can nested infinity.",
+    "compatVersion": "1",
+    "architect": {
+        "compatFrameworks": [
+            "touch20",
+            "touch21",
+            "touch22",
+            "touch23"
+        ],
+        "requires": [
+            "ux/AccordionListItem.js"
+        ],
+        "classes": [{
+            "definition": "AccordionList.js",
+            "className": "Ext.ux.AccordionList",
+            "js": ["ux/AccordionList.js"],
+            "css": []
+        }, {
+            "definition": "AccordionListItem.js",
+            "className": "Ext.ux.AccordionListItem",
+            "js": ["ux/AccordionListItem.js"],
+            "css": []
+        }]
+    },
+    "local": true
 }

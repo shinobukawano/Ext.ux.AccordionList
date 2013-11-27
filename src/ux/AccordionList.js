@@ -4,7 +4,7 @@
  *  You can expand and collapse contents by header item tap.
  *  Also it can nested infinity.
  *
- *  @author KAWANO Shinobu <http://kawanoshinobu.com>
+ *  @author Shinobu Kawano <http://kawanoshinobu.com>
  *
  *  Simple example:
  *
@@ -113,7 +113,7 @@ Ext.define('Ext.ux.AccordionList', {
 
         /**
          * @cfg {Ext.data.TreeStore/Object} store
-         * Store instanse or tree store'a data object.
+         * Store instanse
          */
         store: null,
 
@@ -513,7 +513,7 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * Remove all items from the store.
      */
-    removeAll: function() {
+    removeAllItem: function() {
         this.getStore().removeAll();
     },
 
@@ -794,11 +794,17 @@ Ext.define('Ext.ux.AccordionList', {
      * HACK: See. Can not able to load json data in Sencha touch 2.1 Accordionlist
      *       http://www.sencha.com/forum/showthread.php?253032-Can-not-able-to-load-json-data-in-Sencha-touch-2.1-Accordionlist
      * @private
-     * @param  {[type]} store
+     * @param  {Ext.data.TreeStore} store
      * @return {Ext.data.TreeStore}
      */
     patchStore: function(store) {
         var me = this;
+
+        if (!store.isStore) {
+            console.error('You should set instance of Ext.data.TreeStore to `store` config');
+            return;
+        }
+
         store.onProxyLoad = function(operation) {
             var records = operation.getRecords(),
                 successful = operation.wasSuccessful(),

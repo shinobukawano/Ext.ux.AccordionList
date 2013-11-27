@@ -6,9 +6,7 @@ Collapsible List with Ext.data.TreeStore. You can expand and collapse contents b
 
 This component was introduced at [Sencha Insight #6](http://us6.campaign-archive2.com/?u=35c628e5bf74b167e4791ffb8&id=f36913f231)
 
-[![1](image1.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image1.png)
-
-[![2](image2.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/image2.png)
+[![1](eyecatch.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/eyecatch.png)
 
 ## Demo
 
@@ -44,31 +42,35 @@ If you use default design, import _accordionlist.scss and include accordionlist 
     @import 'stylesheets/accordionlist';
     @include accordionlist;
 
-Before build with Sencha Cmd, you must define "${add.dir}/ux" to sencha.cfg:
+Before build with Sencha Cmd, you must define "${add.dir}/../src/ux" to sencha.cfg:
 
-    app.classpath=${app.dir}/app.js,${app.dir}/ux,${app.dir}/app
+    app.classpath=${app.dir}/app.js,${app.dir}/../src/ux,${app.dir}/app
 
 ### Example
 
 Execute the following command in the sources root directory
 
-    sencha ant -f project.xml initialize
+    sencha ant -f build.xml initialize
 
 And compile .scss file.
 
-    compass compile example/resources/sass/
+    compass compile examples/resources/sass/
 
 Then to place example directory to server's application directory.
 
+## Integrate into Sencha Architect
+
+If you want to use AccordionList with Architect, please install ‘Ext.ux.AccordionList.aux’ file of `architect` directory. Then you will find this component at Toolbox section. Please drag component to design area, that’s all.
+
+AccordionList creates lists instance dynamically, so you cannot see the preview, but able to define some config by config section.
+
+[![2](architect.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/architect.png)
+
 ## Test
 
-You can execute Jasmine and PhantomJS based unit test.
+You can execute Siesta based unit test. To run the test, install this project into where the web server can serve your apps, and access to http://localhost/Ext.ux.AccordionList/tests from browser.
 
-Example command line:
-
-    phantomjs test/run-jasmine.js http://localhost:3333/Ext.ux.AccordionList/test/SpecRunner.html
-
-You will need to run the tests from a web server because XHR's cannot be made from the file:// protocol
+[![3](siesta.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/siesta.png)
 
 ## useComponents
 
@@ -122,18 +124,27 @@ That's ok. Accordion List appears components bound items. You can check it at ex
 
 ## Version
 
-1.0.1
+1.1.0
 
 ## Change log
 
-[2013-06-15] **v1.0.1** KAWANO Shinobu (kawanoshinobu)
+[2013-11-27] **v1.1.0** Shinobu Kawano (kawanoshinobu)
+
+* Add paging and pull refresh feature
+* Add bind component feature
+* Add grouping and index bar feature
+* Add indent feature
+* Add some config to integrate into Sencha Architect
+* change test tool, Jasmine to Siesta
+
+[2013-06-15] **v1.0.1** Shinobu Kawano (kawanoshinobu)
 
 * Add singleMode feature
 * Add animation feature
 * Add showCount feature
 * Add new example (decorate)
 
-[2013-05-05] **v1.0.0** KAWANO Shinobu (kawanoshinobu)
+[2013-05-05] **v1.0.0** Shinobu Kawano (kawanoshinobu)
 
 * Update for Sencha Touch 2.2
 * Refactoring code
