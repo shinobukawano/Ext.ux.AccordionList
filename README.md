@@ -6,7 +6,7 @@ Collapsible List with Ext.data.TreeStore. You can expand and collapse contents b
 
 This component was introduced at [Sencha Insight #6](http://us6.campaign-archive2.com/?u=35c628e5bf74b167e4791ffb8&id=f36913f231)
 
-[![1](eyecatch.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/eyecatch.png)
+![eyecatch](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/eyecatch.png)
 
 ## Demo
 
@@ -52,11 +52,7 @@ Execute the following command in the sources root directory
 
     sencha ant -f build.xml initialize
 
-And compile .scss file.
-
-    compass compile examples/resources/sass/
-
-Then to place example directory to server's application directory.
+Then to place examples directory to server's application directory.
 
 ## Integrate into Sencha Architect
 
@@ -64,13 +60,13 @@ If you want to use AccordionList with Architect, please install ‘Ext.ux.Accord
 
 AccordionList creates lists instance dynamically, so you cannot see the preview, but able to define some config by config section.
 
-[![2](architect.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/architect.png)
+![architect](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/architect.png)
 
 ## Test
 
 You can execute Siesta based unit test. To run the test, install this project into where the web server can serve your apps, and access to http://localhost/Ext.ux.AccordionList/tests from browser.
 
-[![3](siesta.png)](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/siesta.png)
+![siesta](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/siesta.png)
 
 ## useComponents
 
