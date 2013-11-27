@@ -2,7 +2,7 @@
 
 Custom component for Sencha Touch 2.
 
-Collapsible List with Ext.data.TreeStore. You can expand and collapse contents by header item tap. Also it can nested infinity.
+Collapsible List with Ext.data.TreeStore. You can expand and collapse the contents by header item tap. Also it can nest infinitely.
 
 This component was introduced at [Sencha Insight #6](http://us6.campaign-archive2.com/?u=35c628e5bf74b167e4791ffb8&id=f36913f231)
 
