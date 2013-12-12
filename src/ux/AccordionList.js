@@ -135,9 +135,9 @@ Ext.define('Ext.ux.AccordionList', {
          */
         headerItemTpl: [
             '<tpl if="this.isExpanded(values)">',
-                '{0}',
+            '{0}',
             '<tpl else>',
-                '{1}',
+            '{1}',
             '</tpl>'
         ].join(''),
 
@@ -165,9 +165,10 @@ Ext.define('Ext.ux.AccordionList', {
          */
         countTpl: [
             '<div class="', Ext.baseCSSPrefix, 'accordion-list-count" ',
-                 'style="position:absolute; right:0; margin-right: 1em;">',
-                '{0}',
-            '</div>'].join(''),
+            'style="position:absolute; right:0; margin-right: 1em;">',
+            '{0}',
+            '</div>'
+        ].join(''),
 
         /**
          * @cfg {Boolean} defaultExpanded
@@ -367,8 +368,9 @@ Ext.define('Ext.ux.AccordionList', {
                     }
                 }
             ),
-            useSimpleItems: true
-        });
+                useSimpleItems: true
+            }
+        );
 
         return config;
     },
