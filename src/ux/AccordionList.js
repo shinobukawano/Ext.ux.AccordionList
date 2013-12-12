@@ -813,11 +813,11 @@ Ext.define('Ext.ux.AccordionList', {
                     store = Ext.factory(store, Ext.data.TreeStore, null);
                 }
             }
+        }
 
-            if (!store.isStore) {
-                console.error('You should set a store id, a store config or an instance of Ext.data.TreeStore to `store` config');
-                return;
-            }
+        if (!store.isStore) {
+            console.error('You should set a store id, a store config or an instance of Ext.data.TreeStore to `store` config');
+            return;
         }
 
         store.onProxyLoad = function(operation) {
