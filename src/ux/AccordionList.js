@@ -112,8 +112,8 @@ Ext.define('Ext.ux.AccordionList', {
         },
 
         /**
-         * @cfg {Ext.data.TreeStore/Object} store
-         * Store instanse
+         * @cfg {Ext.data.TreeStore/Object/String} store
+         * Store instance
          */
         store: null,
 
@@ -797,15 +797,27 @@ Ext.define('Ext.ux.AccordionList', {
      * HACK: See. Can not able to load json data in Sencha touch 2.1 Accordionlist
      *       http://www.sencha.com/forum/showthread.php?253032-Can-not-able-to-load-json-data-in-Sencha-touch-2.1-Accordionlist
      * @private
-     * @param  {Ext.data.TreeStore} store
+     * @param  {Ext.data.TreeStore/Object/String} store
      * @return {Ext.data.TreeStore}
      */
     patchStore: function(store) {
         var me = this;
 
-        if (!store.isStore) {
-            console.error('You should set instance of Ext.data.TreeStore to `store` config');
-            return;
+        if (store) {
+            if (Ext.isString(store)) {
+                // store id
+                store = Ext.data.StoreManager.get(store);
+            } else {
+                // store instance or store config
+                if (!(store instanceof Ext.data.TreeStore)) {
+                    store = Ext.factory(store, Ext.data.TreeStore, null);
+                }
+            }
+
+            if (!store.isStore) {
+                console.error('You should set a store id, a store config or an instance of Ext.data.TreeStore to `store` config');
+                return;
+            }
         }
 
         store.onProxyLoad = function(operation) {
