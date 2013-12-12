@@ -240,7 +240,7 @@ Ext.define('Ext.ux.AccordionList', {
          * `true` to render an alphabet IndexBar docked on the right.
          * This can also be a config object that will be passed to {@link Ext.IndexBar}.
          */
-         indexBar: null
+        indexBar: null
     },
 
     /**
@@ -296,8 +296,9 @@ Ext.define('Ext.ux.AccordionList', {
      * @return {Ext.dataview.List}
      */
     readyList: function() {
-        var me = this;
-        var config = me.makeListConfig();
+        var me = this,
+            config = me.makeListConfig(),
+            list;
 
         list = Ext.create('Ext.dataview.List', config);
 
@@ -496,12 +497,12 @@ Ext.define('Ext.ux.AccordionList', {
      /**
      * @private
      */
-     updateListScrollable: function(newListScrollable, oldListScrollable) {
-          var list = this.getList();
-          if (list) {
-              list.setScrollable(newListScrollable);
-          }
-     },
+    updateListScrollable: function(newListScrollable, oldListScrollable) {
+        var list = this.getList();
+        if (list) {
+            list.setScrollable(newListScrollable);
+        }
+    },
 
     /**
      * Loads data into the store.
@@ -712,10 +713,10 @@ Ext.define('Ext.ux.AccordionList', {
     addListExpandListeners: function(parent) {
         var me = this;
 
-       me.loadedTaps = me.loadedTaps || {};
+        me.loadedTaps = me.loadedTaps || {};
 
         if (me.loadedTaps[parent.id]) {
-             return;
+            return;
         }
         else {
             me.loadedTaps[parent.id] = true;
