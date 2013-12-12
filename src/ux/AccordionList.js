@@ -849,8 +849,52 @@ Ext.define('Ext.ux.AccordionList', {
             Ext.callback(operation.getCallback(), operation.getScope() ||
                 me, [records, operation, successful]);
         };
-        store.onNodeBeforeExpand = function() {
-            // Do nothing.
+
+        store.updateNode = function(node, oldNode) {
+            if (oldNode && !oldNode.isDestroyed) {
+                oldNode.un({
+                    append: 'onNodeAppend',
+                    insert: 'onNodeInsert',
+                    remove: 'onNodeRemove',
+                    load: 'onNodeLoad',
+                    scope: this
+                });
+                oldNode.unjoin(this);
+            }
+
+            if (node) {
+                node.on({
+                    scope: this,
+                    append: 'onNodeAppend',
+                    insert: 'onNodeInsert',
+                    remove: 'onNodeRemove',
+                    load: 'onNodeLoad'
+                });
+
+                node.join(this);
+
+                var data = [];
+                if (node.childNodes.length) {
+                    data = data.concat(this.retrieveChildNodes(node));
+                }
+                if (this.getRootVisible()) {
+                    data.push(node);
+                } else if (node.isLoaded() || node.isLoading()) {
+                    node.set('expanded', true);
+                }
+
+                this.fireEvent('clear', this);
+
+                this.suspendEvents();
+                this.add(data);
+                this.resumeEvents();
+
+                if (data.length === 0) {
+                    this.loaded = node.loaded = true;
+                }
+
+                this.fireEvent('refresh', this, this.data);
+            }
         };
 
         store.setClearOnLoad(false);
