@@ -834,12 +834,9 @@ Ext.define('Ext.ux.AccordionList', {
             Ext.callback(operation.getCallback(), operation.getScope() ||
                 me, [records, operation, successful]);
         };
-
-        if (Ext.version.isLessThanOrEqual('2.1.1')) {
-            store.onNodeBeforeExpand = function() {
-                // Do nothing.
-            };
-        }
+        store.onNodeBeforeExpand = function() {
+            // Do nothing.
+        };
 
         store.setClearOnLoad(false);
 
