@@ -820,6 +820,16 @@ Ext.define('Ext.ux.AccordionList', {
             return;
         }
 
+        store.on('addrecords', function(store, records) {
+            // fix sort order if we add children to a already loaded treestore
+            if (!records[0].parentNode.isRoot()) {
+                // we have to fix the sort order of the items and the data array
+                store.getData().items = me.fixTreeStoreSortOrder(store.getData().items, records);
+                store.getData().all = me.fixTreeStoreSortOrder(store.getData().all, records);
+                store.fireEvent('refresh', store, store.data);
+            }
+        });
+
         store.onProxyLoad = function(operation) {
             var records = operation.getRecords(),
                 successful = operation.wasSuccessful(),
@@ -833,7 +843,10 @@ Ext.define('Ext.ux.AccordionList', {
                 records = this.fillNode(node, records);
             }
             node.endEdit();
-            this.updateNode(node);
+            // we only have to call this once to get an addrecords ev
+            if (node.isRoot()) {
+                this.updateNode(node);
+            }
             this.loading = false;
             this.loaded = true;
 
@@ -850,53 +863,6 @@ Ext.define('Ext.ux.AccordionList', {
                 me, [records, operation, successful]);
         };
 
-        store.updateNode = function(node, oldNode) {
-            if (oldNode && !oldNode.isDestroyed) {
-                oldNode.un({
-                    append: 'onNodeAppend',
-                    insert: 'onNodeInsert',
-                    remove: 'onNodeRemove',
-                    load: 'onNodeLoad',
-                    scope: this
-                });
-                oldNode.unjoin(this);
-            }
-
-            if (node) {
-                node.on({
-                    scope: this,
-                    append: 'onNodeAppend',
-                    insert: 'onNodeInsert',
-                    remove: 'onNodeRemove',
-                    load: 'onNodeLoad'
-                });
-
-                node.join(this);
-
-                var data = [];
-                if (node.childNodes.length) {
-                    data = data.concat(this.retrieveChildNodes(node));
-                }
-                if (this.getRootVisible()) {
-                    data.push(node);
-                } else if (node.isLoaded() || node.isLoading()) {
-                    node.set('expanded', true);
-                }
-
-                this.fireEvent('clear', this);
-
-                this.suspendEvents();
-                this.add(data);
-                this.resumeEvents();
-
-                if (data.length === 0) {
-                    this.loaded = node.loaded = true;
-                }
-
-                this.fireEvent('refresh', this, this.data);
-            }
-        };
-
         store.setClearOnLoad(false);
 
         if (store.getAutoLoad()) {
@@ -909,6 +875,28 @@ Ext.define('Ext.ux.AccordionList', {
             }, 500, this);
         }
         return store;
+    },
+
+    /**
+     * @private
+     * @param  {Ext.data.TreeStore} store
+     * @param  {Array} allRecords | of store's data or items array
+     * @param  {Array} newRecords | new loaded children of node
+     * @return {Array}            | correct sort order
+     */
+    fixTreeStoreSortOrder: function(allRecords, newRecords) {
+        var store = this.getStore(),
+            moveRecords = [],
+            parentIndex = Ext.Array.indexOf(allRecords, newRecords[0].parentNode),
+            firstRecordIndex = Ext.Array.indexOf(allRecords, newRecords[0]);
+
+        // assume all records have the same parent because we're expanding one node
+        if (parentIndex + 1 !== firstRecordIndex) {
+            moveRecords = Ext.Array.splice(allRecords, allRecords.length - newRecords.length, newRecords.length);
+            return Ext.Array.insert(allRecords, parentIndex + 1, moveRecords);
+        } else {
+            return allRecords;
+        }
     }
 
 });
