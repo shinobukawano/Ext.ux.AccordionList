@@ -112,8 +112,8 @@ Ext.define('Ext.ux.AccordionList', {
         },
 
         /**
-         * @cfg {Ext.data.TreeStore/Object} store
-         * Store instanse
+         * @cfg {Ext.data.TreeStore/Object/String} store
+         * Store instance
          */
         store: null,
 
@@ -135,9 +135,9 @@ Ext.define('Ext.ux.AccordionList', {
          */
         headerItemTpl: [
             '<tpl if="this.isExpanded(values)">',
-                '{0}',
+            '{0}',
             '<tpl else>',
-                '{1}',
+            '{1}',
             '</tpl>'
         ].join(''),
 
@@ -165,9 +165,10 @@ Ext.define('Ext.ux.AccordionList', {
          */
         countTpl: [
             '<div class="', Ext.baseCSSPrefix, 'accordion-list-count" ',
-                 'style="position:absolute; right:0; margin-right: 1em;">',
-                '{0}',
-            '</div>'].join(''),
+            'style="position:absolute; right:0; margin-right: 1em;">',
+            '{0}',
+            '</div>'
+        ].join(''),
 
         /**
          * @cfg {Boolean} defaultExpanded
@@ -240,7 +241,7 @@ Ext.define('Ext.ux.AccordionList', {
          * `true` to render an alphabet IndexBar docked on the right.
          * This can also be a config object that will be passed to {@link Ext.IndexBar}.
          */
-         indexBar: null
+        indexBar: null
     },
 
     /**
@@ -296,8 +297,9 @@ Ext.define('Ext.ux.AccordionList', {
      * @return {Ext.dataview.List}
      */
     readyList: function() {
-        var me = this;
-        var config = me.makeListConfig();
+        var me = this,
+            config = me.makeListConfig(),
+            list;
 
         list = Ext.create('Ext.dataview.List', config);
 
@@ -366,8 +368,9 @@ Ext.define('Ext.ux.AccordionList', {
                     }
                 }
             ),
-            useSimpleItems: true
-        });
+                useSimpleItems: true
+            }
+        );
 
         return config;
     },
@@ -496,12 +499,12 @@ Ext.define('Ext.ux.AccordionList', {
      /**
      * @private
      */
-     updateListScrollable: function(newListScrollable, oldListScrollable) {
-          var list = this.getList();
-          if (list) {
-              list.setScrollable(newListScrollable);
-          }
-     },
+    updateListScrollable: function(newListScrollable, oldListScrollable) {
+        var list = this.getList();
+        if (list) {
+            list.setScrollable(newListScrollable);
+        }
+    },
 
     /**
      * Loads data into the store.
@@ -712,10 +715,10 @@ Ext.define('Ext.ux.AccordionList', {
     addListExpandListeners: function(parent) {
         var me = this;
 
-       me.loadedTaps = me.loadedTaps || {};
+        me.loadedTaps = me.loadedTaps || {};
 
         if (me.loadedTaps[parent.id]) {
-             return;
+            return;
         }
         else {
             me.loadedTaps[parent.id] = true;
@@ -794,16 +797,38 @@ Ext.define('Ext.ux.AccordionList', {
      * HACK: See. Can not able to load json data in Sencha touch 2.1 Accordionlist
      *       http://www.sencha.com/forum/showthread.php?253032-Can-not-able-to-load-json-data-in-Sencha-touch-2.1-Accordionlist
      * @private
-     * @param  {Ext.data.TreeStore} store
+     * @param  {Ext.data.TreeStore/Object/String} store
      * @return {Ext.data.TreeStore}
      */
     patchStore: function(store) {
         var me = this;
 
+        if (store) {
+            if (Ext.isString(store)) {
+                // store id
+                store = Ext.data.StoreManager.get(store);
+            } else {
+                // store instance or store config
+                if (!(store instanceof Ext.data.TreeStore)) {
+                    store = Ext.factory(store, Ext.data.TreeStore, null);
+                }
+            }
+        }
+
         if (!store.isStore) {
-            console.error('You should set instance of Ext.data.TreeStore to `store` config');
+            console.error('You should set a store id, a store config or an instance of Ext.data.TreeStore to `store` config');
             return;
         }
+
+        store.on('addrecords', function(store, records) {
+            // fix sort order if we add children to a already loaded treestore
+            if (!records[0].parentNode.isRoot()) {
+                // we have to fix the sort order of the items and the data array
+                store.getData().items = me.fixTreeStoreSortOrder(store.getData().items, records);
+                store.getData().all = me.fixTreeStoreSortOrder(store.getData().all, records);
+                store.fireEvent('refresh', store, store.data);
+            }
+        });
 
         store.onProxyLoad = function(operation) {
             var records = operation.getRecords(),
@@ -818,7 +843,10 @@ Ext.define('Ext.ux.AccordionList', {
                 records = this.fillNode(node, records);
             }
             node.endEdit();
-            this.updateNode(node);
+            // we only have to call this once to get an addrecords ev
+            if (node.isRoot()) {
+                this.updateNode(node);
+            }
             this.loading = false;
             this.loaded = true;
 
@@ -834,9 +862,6 @@ Ext.define('Ext.ux.AccordionList', {
             Ext.callback(operation.getCallback(), operation.getScope() ||
                 me, [records, operation, successful]);
         };
-        store.onNodeBeforeExpand = function() {
-            // Do nothing.
-        };
 
         store.setClearOnLoad(false);
 
@@ -850,6 +875,28 @@ Ext.define('Ext.ux.AccordionList', {
             }, 500, this);
         }
         return store;
+    },
+
+    /**
+     * @private
+     * @param  {Ext.data.TreeStore} store
+     * @param  {Array} allRecords | of store's data or items array
+     * @param  {Array} newRecords | new loaded children of node
+     * @return {Array}            | correct sort order
+     */
+    fixTreeStoreSortOrder: function(allRecords, newRecords) {
+        var store = this.getStore(),
+            moveRecords = [],
+            parentIndex = Ext.Array.indexOf(allRecords, newRecords[0].parentNode),
+            firstRecordIndex = Ext.Array.indexOf(allRecords, newRecords[0]);
+
+        // assume all records have the same parent because we're expanding one node
+        if (parentIndex + 1 !== firstRecordIndex) {
+            moveRecords = Ext.Array.splice(allRecords, allRecords.length - newRecords.length, newRecords.length);
+            return Ext.Array.insert(allRecords, parentIndex + 1, moveRecords);
+        } else {
+            return allRecords;
+        }
     }
 
 });

@@ -170,7 +170,7 @@ Ext.define('Ext.ux.AccordionListItem', {
         }
 
         me.doMapData(dataMap, data, body);
-        me.doUpdateItemMark(expanded, leaf);
+        me.doUpdateItemMark(expanded, leaf, depth);
         me.toggle(leaf);
 
         /**
@@ -186,8 +186,9 @@ Ext.define('Ext.ux.AccordionListItem', {
      * @private
      * @param  {Boolean} expanded
      * @param  {Boolean} leaf
+     * @param  {Number} depth
      */
-    doUpdateItemMark: function (expanded, leaf) {
+    doUpdateItemMark: function (expanded, leaf, depth) {
         var me = this,
             itemMark = me.getItemMark();
 
