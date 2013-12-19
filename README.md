@@ -126,12 +126,13 @@ That's ok. Accordion List appears components bound items. You can check it at ex
 
 [2013-11-27] **v1.1.0** Shinobu Kawano (kawanoshinobu)
 
+* Update for Sencha Touch 2.3.1
 * Add paging and pull refresh feature
 * Add bind component feature
 * Add grouping and index bar feature
 * Add indent feature
 * Add some config to integrate into Sencha Architect
-* change test tool, Jasmine to Siesta
+* Change test tool, Jasmine to Siesta
 
 [2013-06-15] **v1.0.1** Shinobu Kawano (kawanoshinobu)
 
