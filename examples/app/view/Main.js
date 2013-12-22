@@ -62,7 +62,7 @@ Ext.define('AccordionListExample.view.Main', {
                             this.down('accordionlist').doAllExpand();
                         }
                     },
-                     'button[action=collapse]': {
+                    'button[action=collapse]': {
                         tap: function() {
                             this.down('accordionlist').doAllCollapse();
                         }
