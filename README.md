@@ -10,11 +10,11 @@ This component was introduced at [Sencha Insight #6](http://us6.campaign-archive
 
 ## Demo
 
-- [Ext.ux.AccordionList Example](http://docs.kawanoshinobu.com/accordionlist)
+- [Ext.ux.AccordionList Example](http://kawanoshinobu.com/public/demo/accordionlist/)
 
 ## Document
 
-- [http://docs.kawanoshinobu.com/touch/#!/api/Ext.ux.AccordionList](http://docs.kawanoshinobu.com/touch/#!/api/Ext.ux.AccordionList)
+- [Ext.ux.AccordionList Document](http://kawanoshinobu.com/public/demo/docs.accordionlist/)
 
 ## Getting Started
 
