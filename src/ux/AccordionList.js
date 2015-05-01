@@ -247,7 +247,7 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * @protected
      */
-    initialize: function() {
+    initialize: function () {
         var me = this;
         me.doInitialize();
         me.callParent(arguments);
@@ -256,7 +256,7 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * @private
      */
-    doInitialize: function() {
+    doInitialize: function () {
         var me = this;
         if (me.getDefaultExpanded()) {
             me.doAllExpand();
@@ -266,21 +266,21 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * @protected
      */
-    applyStore: function(newStore) {
+    applyStore: function (newStore) {
         return this.patchStore(newStore);
     },
 
     /**
      * @protected
      */
-    applyDisplayField: function(newField) {
+    applyDisplayField: function (newField) {
         return '{' + newField + '}';
     },
 
     /**
      * @protected
      */
-    updateStore: function(newStore, oldStore) {
+    updateStore: function (newStore, oldStore) {
         var me = this,
             list = me.getList();
 
@@ -296,7 +296,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @return {Ext.dataview.List}
      */
-    readyList: function() {
+    readyList: function () {
         var me = this,
             config = me.makeListConfig(),
             list;
@@ -313,7 +313,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @return {Object}
      */
-    makeListConfig: function() {
+    makeListConfig: function () {
         var me = this,
             defaultConfig = {
                 scrollToTopOnRefresh: false
@@ -337,7 +337,7 @@ Ext.define('Ext.ux.AccordionList', {
         if (!Ext.isEmpty(indexBar)) {
             Ext.Object.merge(config, {
                 indexBar: indexBar,
-                grouped : true
+                grouped: true
             });
         }
 
@@ -351,23 +351,23 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Object} config
      * @return {Object}
      */
-    makeElementListConfig: function(config) {
+    makeElementListConfig: function (config) {
         var me = this;
 
         Ext.Object.merge(config, {
-            itemTpl: new Ext.XTemplate(
-                '<tpl if="leaf">',
+                itemTpl: new Ext.XTemplate(
+                    '<tpl if="leaf">',
                     me.makeContentTemplate(),
-                '<tpl else>',
+                    '<tpl else>',
                     me.makeHeaderTemplate(),
                     me.getShowCount() ? me.makeCountTpl() : '',
-                '</tpl>',
-                {
-                    isExpanded: function(values) {
-                        return values.expanded;
+                    '</tpl>',
+                    {
+                        isExpanded: function (values) {
+                            return values.expanded;
+                        }
                     }
-                }
-            ),
+                ),
                 useSimpleItems: true
             }
         );
@@ -380,7 +380,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Object} config
      * @return {Object}
      */
-    makeComponentListConfig: function(config) {
+    makeComponentListConfig: function (config) {
         var me = this;
 
         Ext.Object.merge(config, {
@@ -397,7 +397,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @param  {Ext.dataview.List} list
      */
-    applyMoreListSetting: function(list) {
+    applyMoreListSetting: function (list) {
         var me = this;
 
         if (me.getUseSelectedHighlights() === false) {
@@ -441,7 +441,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Ext.data.Model} records
      * @param  {Boolean} successful
      */
-    onLoadStore: function(store, records, successful) {
+    onLoadStore: function (store, records, successful) {
         if (successful === false) {
             return;
         }
@@ -452,7 +452,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @param  {Ext.data.Model} records
      */
-    setCountToRecords: function(records) {
+    setCountToRecords: function (records) {
         var me = this;
 
         (records || []).forEach(function setCount(record) {
@@ -470,7 +470,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @return {String}
      */
-    makeHeaderTemplate: function() {
+    makeHeaderTemplate: function () {
         var me = this,
             displayField = me.getDisplayField(),
             openTpl = Ext.String.format(me.getHeaderOpenTpl(), displayField),
@@ -482,7 +482,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @return {String}
      */
-    makeContentTemplate: function() {
+    makeContentTemplate: function () {
         var me = this,
             displayField = me.getDisplayField();
         return Ext.String.format(me.getContentItemTpl(), displayField);
@@ -492,14 +492,14 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @return {String}
      */
-    makeCountTpl: function() {
+    makeCountTpl: function () {
         return Ext.String.format(this.getCountTpl(), '{cnt}');
     },
 
-     /**
+    /**
      * @private
      */
-    updateListScrollable: function(newListScrollable, oldListScrollable) {
+    updateListScrollable: function (newListScrollable, oldListScrollable) {
         var list = this.getList();
         if (list) {
             list.setScrollable(newListScrollable);
@@ -509,14 +509,14 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * Loads data into the store.
      */
-    load: function() {
+    load: function () {
         this.getStore().load();
     },
 
     /**
      * Remove all items from the store.
      */
-    removeAllItem: function() {
+    removeAllItem: function () {
         this.getStore().removeAll();
     },
 
@@ -524,7 +524,7 @@ Ext.define('Ext.ux.AccordionList', {
      * Gets the number of cached records.
      * @return {Number}
      */
-    getCount: function() {
+    getCount: function () {
         var store = this.getStore();
         return Ext.isEmpty(store) ? 0 : store.getCount();
     },
@@ -533,7 +533,7 @@ Ext.define('Ext.ux.AccordionList', {
      * Gets the number of all records.
      * @return {Number}
      */
-    getAllCount: function() {
+    getAllCount: function () {
         var store = this.getStore();
         return Ext.isEmpty(store) ? 0 : store.getAllCount();
     },
@@ -541,7 +541,7 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * Expand all of contents.
      */
-    doAllExpand: function() {
+    doAllExpand: function () {
         var me = this;
         me.doAll(function expand(node) {
             if (me.getAnimation()) {
@@ -557,7 +557,7 @@ Ext.define('Ext.ux.AccordionList', {
     /**
      * Collapse all of contents.
      */
-    doAllCollapse: function() {
+    doAllCollapse: function () {
         var me = this;
         me.doAll(function collapse(node) {
             node.collapse();
@@ -571,7 +571,7 @@ Ext.define('Ext.ux.AccordionList', {
      * Collapse all of contents with single mode.
      * @param  {Number} depth
      */
-    doAllCollapseWithSingleMode: function(depth) {
+    doAllCollapseWithSingleMode: function (depth) {
         var me = this;
         me.doAll(function collapse(node) {
             if (node.data.depth === depth) {
@@ -584,7 +584,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @param  {Function} updater
      */
-    doAll: function(updater) {
+    doAll: function (updater) {
         var me = this,
             list = me.getList(),
             store = list.getStore();
@@ -595,7 +595,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @param  {Ext.dataview.List} list
      */
-    onListRefresh: function(list) {
+    onListRefresh: function (list) {
         var me = this,
             items = list.listItems,
             ln = items.length,
@@ -626,7 +626,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Ext.data.Record} record The record whichw as tapped
      * @param  {Ext.event.Event} e The event
      */
-    onItemTap: function(list, index, target, record, e) {
+    onItemTap: function (list, index, target, record, e) {
         var me = this,
             store = list.getStore(),
             node = store.getAt(index);
@@ -651,7 +651,7 @@ Ext.define('Ext.ux.AccordionList', {
                 node.collapse();
             }
             else {
-                if(me.getSingleMode()) {
+                if (me.getSingleMode()) {
                     me.doAllCollapseWithSingleMode(record.data.depth);
                 }
                 node.expand();
@@ -669,7 +669,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Ext.data.Record} record
      * @param  {Number} index
      */
-    onItemIndexChange: function(list, record, index) {
+    onItemIndexChange: function (list, record, index) {
         var me = this;
         if (me.getIndent()) {
             me.doIndent();
@@ -681,7 +681,7 @@ Ext.define('Ext.ux.AccordionList', {
      * http://siva-technology.blogspot.pt/2013/03/sencha-touch-scroll-to-selected-item-on.html
      * Position list item
      */
-    scrollToSelectedItem: function() {
+    scrollToSelectedItem: function () {
         var me = this,
             list = me.getList(),
             store = list.getStore(),
@@ -700,7 +700,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Ext.Element} target
      * @param  {Ext.data.Record} record
      */
-    readyAnimation : function(list, index, target, record){
+    readyAnimation: function (list, index, target, record) {
         var me = this,
             id = record.getId();
 
@@ -712,20 +712,34 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @param  {Ext.data.Model} parent
      */
-    addListExpandListeners: function(parent) {
+    addListExpandListeners: function (parent) {
         var me = this;
 
-        me.loadedTaps = me.loadedTaps || {};
 
-        if (me.loadedTaps[parent.id]) {
+        //me.loadedTaps = me.loadedTaps || {};
+        //
+        //if (me.loadedTaps[parent.id]) {
+        //    return;
+        //}
+        //else {
+        //    me.loadedTaps[parent.id] = true;
+        //}
+
+        var grand = parent.parentNode;
+
+        if (parent.hasListener('expandanim')) {
             return;
         }
-        else {
-            me.loadedTaps[parent.id] = true;
+        else if (grand && grand.hasListener('expandanim')) {
+            return;
         }
 
+        parent.on('expand', function (record) {
+            record.fireEvent('expandanim', record);
+        });
+
         parent.setListeners({
-            expand: me.onExpandWithAnimation,
+            expandanim: me.onExpandWithAnimation,
             scope: me
         });
     },
@@ -734,21 +748,21 @@ Ext.define('Ext.ux.AccordionList', {
      * @private
      * @param  {Ext.data.Model} parent
      */
-    onExpandWithAnimation: function(parent) {
+    onExpandWithAnimation: function (parent) {
         var me = this,
             list = me.getList();
 
-        Ext.each(parent.childNodes, function(el) {
+        Ext.each(parent.childNodes, function (el) {
             var item = list.getItemAt(list.getStore().indexOf(el));
             item.hide();
-            if (el.get('expanded')){
+            if (el.get('expanded')) {
                 me.addListExpandListeners(item, list);
                 el.collapse();
                 el.expand();
             }
         });
 
-        Ext.each(parent.childNodes, function(el){
+        Ext.each(parent.childNodes, function (el) {
             var item = list.getItemAt(list.getStore().indexOf(el));
             try {
                 item.show({
@@ -757,21 +771,22 @@ Ext.define('Ext.ux.AccordionList', {
                     autoClear: true,
                     from: {
                         opacity: 0,
-                        height:'0px'
+                        height: '0px'
                     },
                     to: {
                         opacity: 1,
-                        height:'51px'
+                        height: '51px'
                     }
                 });
-            } catch(e) {}
+            } catch (e) {
+            }
         });
     },
 
     /**
      * @private
      */
-    doIndent: function() {
+    doIndent: function () {
         var me = this,
             list = me.getList();
 
@@ -784,7 +799,7 @@ Ext.define('Ext.ux.AccordionList', {
             record = item.getRecord();
             if (!Ext.isEmpty(record)) {
                 elem = item.element.down('.x-innerhtml');
-                indent = ((record.getDepth() + 0.5) -1) + 'em';
+                indent = ((record.getDepth() + 0.5) - 1) + 'em';
                 // 2.1
                 // elem = item.element.down('.x-list-item-body .x-innerhtml');
                 // indent = ((record.getDepth()) -1) + 'em';
@@ -800,7 +815,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Ext.data.TreeStore/Object/String} store
      * @return {Ext.data.TreeStore}
      */
-    patchStore: function(store) {
+    patchStore: function (store) {
         var me = this;
 
         if (store) {
@@ -820,7 +835,7 @@ Ext.define('Ext.ux.AccordionList', {
             return;
         }
 
-        store.on('addrecords', function(store, records) {
+        store.on('addrecords', function (store, records) {
             // fix sort order if we add children to a already loaded treestore
             if (!records[0].parentNode.isRoot()) {
                 // we have to fix the sort order of the items and the data array
@@ -830,7 +845,7 @@ Ext.define('Ext.ux.AccordionList', {
             }
         });
 
-        store.onProxyLoad = function(operation) {
+        store.onProxyLoad = function (operation) {
             var records = operation.getRecords(),
                 successful = operation.wasSuccessful(),
                 node = operation.getNode();
@@ -866,7 +881,7 @@ Ext.define('Ext.ux.AccordionList', {
         store.setClearOnLoad(false);
 
         if (store.getAutoLoad()) {
-            Ext.defer(function() {
+            Ext.defer(function () {
                 var list = this.getList(),
                     tmp = list.getLoadingText();
                 list.setLoadingText(null);
@@ -884,7 +899,7 @@ Ext.define('Ext.ux.AccordionList', {
      * @param  {Array} newRecords | new loaded children of node
      * @return {Array}            | correct sort order
      */
-    fixTreeStoreSortOrder: function(allRecords, newRecords) {
+    fixTreeStoreSortOrder: function (allRecords, newRecords) {
         var store = this.getStore(),
             moveRecords = [],
             parentIndex = Ext.Array.indexOf(allRecords, newRecords[0].parentNode),

@@ -7,11 +7,22 @@
 Ext.Loader.addClassPathMappings({
   "AccordionListExample": "app",
   "Ext": "touch/src",
+  "Ext-more": "touch/src/core/Ext-more.js",
+  "Ext.DomHelper": "touch/src/dom/Helper.js",
+  "Ext.DomQuery": "touch/src/dom/Query.js",
+  "Ext.Element-alignment": "touch/src/dom/Element.alignment.js",
+  "Ext.Element-all": "touch/src/dom/Element.traversal.js",
+  "Ext.Element-insertion": "touch/src/dom/Element.insertion.js",
+  "Ext.Element-position": "touch/src/dom/Element.position.js",
+  "Ext.Element-static": "touch/src/dom/Element.static.js",
+  "Ext.Element-style": "touch/src/dom/Element.style.js",
+  "Ext.Element-traversal": "touch/src/dom/Element.traversal.js",
+  "Ext.core.DomQuery": "touch/src/dom/Query.js",
   "Ext.device.Purchases.Product": "touch/src/device/purchases/Sencha.js",
-  "Ext.device.filesystem.DirectoryEntry": "touch/src/device/filesystem/HTML5.js",
-  "Ext.device.filesystem.Entry": "touch/src/device/filesystem/HTML5.js",
-  "Ext.device.filesystem.FileEntry": "touch/src/device/filesystem/HTML5.js",
-  "Ext.device.filesystem.FileSystem": "touch/src/device/filesystem/HTML5.js",
+  "Ext.device.filesystem.DirectoryEntry": "touch/src/device/filesystem/Sencha.js",
+  "Ext.device.filesystem.Entry": "touch/src/device/filesystem/Sencha.js",
+  "Ext.device.filesystem.FileEntry": "touch/src/device/filesystem/Sencha.js",
+  "Ext.device.filesystem.FileSystem": "touch/src/device/filesystem/Sencha.js",
   "Ext.device.purchases.Purchase": "touch/src/device/purchases/Sencha.js",
   "Ext.device.sqlite.Database": "touch/src/device/sqlite/Sencha.js",
   "Ext.device.sqlite.SQLResultSet": "touch/src/device/sqlite/Sencha.js",
@@ -80,6 +91,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.Template": [],
   "Ext.Title": [],
   "Ext.TitleBar": [],
+  "Ext.Toast": [],
   "Ext.Toolbar": [],
   "Ext.Video": [],
   "Ext.XTemplate": [],
@@ -448,7 +460,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.draw.Color": [],
   "Ext.draw.Component": [],
   "Ext.draw.Draw": [],
-  "Ext.draw.Group": [],
   "Ext.draw.LimitedCache": [],
   "Ext.draw.Matrix": [],
   "Ext.draw.Path": [],
@@ -463,6 +474,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.draw.engine.SvgContext.Gradient": [],
   "Ext.draw.engine.SvgExporter": [],
   "Ext.draw.gradient.Gradient": [],
+  "Ext.draw.gradient.GradientDefinition": [],
   "Ext.draw.gradient.Linear": [],
   "Ext.draw.gradient.Radial": [],
   "Ext.draw.modifier.Animation": [],
@@ -477,7 +489,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.draw.sprite.Composite": [],
   "Ext.draw.sprite.Ellipse": [],
   "Ext.draw.sprite.EllipticalArc": [],
-  "Ext.draw.sprite.GradientDefinition": [],
   "Ext.draw.sprite.Image": [],
   "Ext.draw.sprite.Instancing": [],
   "Ext.draw.sprite.Line": [],
@@ -856,6 +867,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.TitleBar": [
     "widget.titlebar"
   ],
+  "Ext.Toast": [],
   "Ext.Toolbar": [
     "widget.toolbar"
   ],
@@ -1299,7 +1311,6 @@ Ext.ClassManager.addNameAliasMappings({
     "widget.draw"
   ],
   "Ext.draw.Draw": [],
-  "Ext.draw.Group": [],
   "Ext.draw.LimitedCache": [],
   "Ext.draw.Matrix": [],
   "Ext.draw.Path": [],
@@ -1316,6 +1327,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.draw.engine.SvgContext.Gradient": [],
   "Ext.draw.engine.SvgExporter": [],
   "Ext.draw.gradient.Gradient": [],
+  "Ext.draw.gradient.GradientDefinition": [],
   "Ext.draw.gradient.Linear": [],
   "Ext.draw.gradient.Radial": [],
   "Ext.draw.modifier.Animation": [
@@ -1346,7 +1358,6 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.draw.sprite.EllipticalArc": [
     "sprite.ellipticalArc"
   ],
-  "Ext.draw.sprite.GradientDefinition": [],
   "Ext.draw.sprite.Image": [
     "sprite.image"
   ],

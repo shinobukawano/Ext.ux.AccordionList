@@ -92,7 +92,7 @@
  */
 Ext.define('Ext.ux.AccordionListItem', {
     extend: 'Ext.dataview.component.ListItem',
-    xtype : 'accordionlistitem',
+    xtype: 'accordionlistitem',
 
     config: {
         baseCls: 'accordion-list-item',  // Do not override this property!
@@ -132,14 +132,14 @@ Ext.define('Ext.ux.AccordionListItem', {
     /**
      * @param  {Object} config
      */
-    applyItemMark: function(config) {
+    applyItemMark: function (config) {
         return Ext.factory(config, Ext.Component);
     },
 
     /**
      * @param  {Ext.Component} newItemMark
      */
-    updateItemMark: function(newItemMark) {
+    updateItemMark: function (newItemMark) {
         if (newItemMark) {
             this.add(newItemMark);
         }
@@ -149,7 +149,7 @@ Ext.define('Ext.ux.AccordionListItem', {
      * @override
      * @param newRecord
      */
-    updateRecord: function(record) {
+    updateRecord: function (record) {
         var me = this,
             dataview = me.dataview || this.getDataview(),
             data = record && dataview.prepareData(record.getData(true), dataview.getStore().indexOf(record), record),

@@ -120,9 +120,15 @@ That's ok. Accordion List appears components bound items. You can check it at ex
 
 ## Version
 
-1.1.0
+1.1.1
 
 ## Change log
+
+[2015-05-01] **v1.1.1** Shinobu Kawano (kawanoshinobu)
+
+* Update for Sencha Touch 2.4.0
+* Update for Sencha Architect 3.2
+* Fixed the animation bug occurs in nested items
 
 [2013-11-27] **v1.1.0** Shinobu Kawano (kawanoshinobu)
 
@@ -152,5 +158,5 @@ That's ok. Accordion List appears components bound items. You can check it at ex
 
 ## license
 
-Copyright (c) 2013 KAWANO Shinobu. This software is licensed under the MIT License.
+Copyright (c) 2015 KAWANO Shinobu. This software is licensed under the MIT License.
 

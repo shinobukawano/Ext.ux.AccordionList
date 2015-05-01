@@ -166,9 +166,9 @@ Ext.define('AccordionListExample.view.Main', {
                         contentItemTpl: [
                             '<div style="display:-webkit-box;width:100%;text-align:right;">',
                                 '<div style="width:20%;"></div>',
-                                '<div style="-webkit-box-flex:1;color:#157fcc;">${sales}</div>',
-                                '<div style="-webkit-box-flex:1;color:red;">${expenses}</div>',
-                                '<div style="-webkit-box-flex:1;color:green;">${profits}</div>',
+                                '<div style="-webkit-box-flex:1;color:#3F51B5">${sales}</div>',
+                                '<div style="-webkit-box-flex:1;color:#f44336;">${expenses}</div>',
+                                '<div style="-webkit-box-flex:1;color:#009688;">${profits}</div>',
                             '</div>'
                         ].join(''),
                         useSelectedHighlights: false,
