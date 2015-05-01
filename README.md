@@ -56,9 +56,11 @@ Then to place examples directory to server's application directory.
 
 ## Integrate into Sencha Architect
 
-If you want to use AccordionList with Architect, please install ‘Ext.ux.AccordionList.aux’ file of `architect` directory. Then you will find this component at Toolbox section. Please drag component to design area, that’s all.
+If you want to use AccordionList with Architect, please install ‘Ext.ux.AccordionList.aux’. Then you will find this component at Toolbox section. Please drag component to design area, that’s all.
 
-AccordionList creates lists instance dynamically, so you cannot see the preview, but able to define some config by config section.
+**NOTE** You can check the usage project with installing /architect/accordionListSample.xda to the Architect. 
+To tell you the truth, it requires a little bit hacking.. 
+You need to set store instance at initialize event because Architect not support to using TreeStore at user extensions.
 
 ![architect](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/architect.png)
 

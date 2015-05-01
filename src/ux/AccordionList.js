@@ -878,7 +878,9 @@ Ext.define('Ext.ux.AccordionList', {
                 me, [records, operation, successful]);
         };
 
-        store.setClearOnLoad(false);
+        if (Ext.isFunction(store.setClearOnLoad)) {
+            store.setClearOnLoad(false);
+        }
 
         if (store.getAutoLoad()) {
             Ext.defer(function () {

@@ -1,9 +1,8 @@
 {
-    "className" : "Ext.ux.AccordionList",
     "classAlias": "widget.accordionlist",
+    "className" : "Ext.ux.AccordionList",
     "inherits"  : "container",
     "autoName"  : "MyAccordionList",
-    "noSetup"   : true,
 
     "toolbox"   : {
         "name"    : "AccordionList",
@@ -15,108 +14,79 @@
     configs   : [
         {
             name        : 'store',
-            type        : 'object',
-            hidden      : false,
-            initialValue: 'YourTreeStoreInstance',
-            merge       : false
+            type        : 'store',
+            initialValue: null
         },
         {
             name        : 'displayField',
             type        : 'string',
-            hidden      : false,
-            initialValue: 'text',
-            merge       : false
+            initialValue: 'text'
         },
         {
             name        : 'headerOpenTpl',
             type        : 'string',
-            hidden      : false,
-            initialValue: '<div class="down"></div><div>{0}</div>',
-            merge       : false
+            initialValue: '<div class="down"></div><div>{0}</div>'
         },
         {
             name        : 'headerCloseTpl',
             type        : 'string',
             hidden      : false,
-            initialValue: '<div class="right"></div><div>{0}</div>',
-            merge       : false
+            initialValue: '<div class="right"></div><div>{0}</div>'
         },
         {
             name        : 'contentItemTpl',
             type        : 'string',
-            hidden      : false,
-            initialValue: '{0}',
-            merge       : false
+            initialValue: '{0}'
         },
         {
             name        : 'listConfig',
             type        : 'object',
-            hidden      : false,
-            initialValue: null,
-            merge       : false
+            initialValue: null
         },
         {
             name        : 'defaultExpanded',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: false,
-            merge       : false
+            initialValue: false
         },
         {
             name        : 'useSelectedHighlights',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: true,
-            merge       : false
+            initialValue: true
         },
         {
             name        : 'singleMode',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: false,
-            merge       : false
+            initialValue: false
         },
         {
             name        : 'animation',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: false,
-            merge       : false
+            initialValue: false
         },
         {
             name        : 'showCount',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: false,
-            merge       : false
+            initialValue: false
         },
         {
             name        : 'indent',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: false,
-            merge       : false
+            initialValue: false
         },
         {
             name        : 'useComponents',
             type        : 'boolean',
-            hidden      : false,
-            initialValue: false,
-            merge       : false
+            initialValue: false
         },
         {
             name        : 'defaultType',
             type        : 'string',
-            hidden      : false,
-            initialValue: '',
-            merge       : false
+            initialValue: ''
         },
         {
             name        : 'indexBar',
             type        : 'object',
-            hidden      : false,
-            initialValue: null,
-            merge       : false
+            initialValue: null
         }
     ],
 

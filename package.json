@@ -1,6 +1,6 @@
 {
     "name": "Ext.ux.AccordionList",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "repository": "https://github.com/kawanoshinobu/Ext.ux.AccordionList",
     "license": "MIT",
     "type": "code",
@@ -13,7 +13,8 @@
             "touch20",
             "touch21",
             "touch22",
-            "touch23"
+            "touch23",
+            "touch24"
         ],
         "requires": [
             "ux/AccordionListItem.js"
