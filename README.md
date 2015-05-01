@@ -58,9 +58,7 @@ Then to place examples directory to server's application directory.
 
 If you want to use AccordionList with Architect, please install ‘Ext.ux.AccordionList.aux’. Then you will find this component at Toolbox section. Please drag component to design area, that’s all.
 
-**NOTE** You can check the usage project with installing /architect/accordionListSample.xda to the Architect. 
-To tell you the truth, it requires a little bit hacking.. 
-You need to set store instance at initialize event because Architect not support to using TreeStore at user extensions.
+**NOTE** You can check the usage project with installing /architect/accordionListSample.xda to the Architect. To tell you the truth, it requires a little bit hacking.. You need to set store instance at initialize event handler because Architect does not support to use TreeStore at user extensions config.
 
 ![architect](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/architect.png)
 
