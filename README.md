@@ -4,6 +4,15 @@ Custom component for Sencha Touch 2.
 
 Collapsible List with Ext.data.TreeStore. You can expand and collapse the contents by header item tap. Also it can nest infinitely.
 
+    Note:
+    Do you want to implement the accordion list feature in Ext JS 6 modern toolkit?
+
+    Umm.. this component doesn't support Ext JS 6.
+    But no worries! You can use a similar feature by 'treelist' component.
+
+    Let's try it at Kitchen sink. :)
+    http://examples.sencha.com/extjs/6.0.0/examples/kitchensink/?profile=modern-triton#demo/tree-list
+
 This component was introduced at [Sencha Insight #6](http://us6.campaign-archive2.com/?u=35c628e5bf74b167e4791ffb8&id=f36913f231)
 
 ![eyecatch](https://raw.github.com/kawanoshinobu/Ext.ux.AccordionList/master/resources/eyecatch.png)
