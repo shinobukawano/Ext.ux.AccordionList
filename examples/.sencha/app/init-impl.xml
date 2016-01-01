@@ -9,7 +9,7 @@
         so this imports ${app.dir}/local.properties, if present
         -->
         <property file="${basedir}/local.properties"/>
-        
+
         <!--
         This will traverse upwards in the file system, starting at the
         app root directory, looking for the workspace.  Once found, 
@@ -52,48 +52,70 @@
         into ant property space
         -->
         <x-sencha-init prefix=""/>
-        
+
         <!-- 
         default the build environment to production if it is unset by this point 
         -->
         <property name="build.environment" value="production"/>
         <property name="CR" value="&#10;"/>
-        
+
+        <tstamp>
+            <!-- sets DSTAMP=yyyyMMdd, TSTAMP=hhmm -->
+            <format property="build.year" pattern="yyyy"/>
+            <format property="build.datetime" pattern="yyyy-MM-dd HH:mm:ss"/>
+            <format property="build.date" pattern="MMMM d, yyyy"/>
+            <format property="build.timestamp" pattern="yyyyMMddHHmmss"/>
+        </tstamp>
+
         <x-load-properties>
+            <!-- If available, load user-defined properties for this build identifier -->
+            <file path="${app.config.dir}/${build.id}.properties" required="false"/>
+            <file path="${app.config.dir}/${app.locale}.properties" required="false"/>
+            <file path="${app.config.dir}/${app.theme}.properties" required="false"/>
+            <file path="${app.config.dir}/${build.name}.properties" required="false"/>
+            <file path="${app.config.dir}/multi-build.properties" required="false"/>
             <!-- Load user-defined properties for environment then general: -->
             <file path="${app.config.dir}/${build.environment}.properties" required="false"/>
             <file path="${app.config.dir}/build.properties" required="false"/>
             <!-- Pick up the defaults by framework/environment followed by general: -->
             <file path="${app.config.dir}/${framework.name}.properties" required="true"/>
+            <file path="${app.config.dir}/${app.packager}.defaults.properties" required="false"/>
             <file path="${app.config.dir}/${build.environment}.defaults.properties" required="true"/>
             <file path="${app.config.dir}/defaults.properties" required="true"/>
         </x-load-properties>
-        
+
         <!--
         calculate the appropriate build.compression value
         -->
         <condition property="build.compression" value="-yui">
-            <x-is-true value="${build.compression.yui}"/>
+            <or>
+                <x-is-true value="${build.compression.yui}"/>
+                <equals arg1="yui" arg2="${app.compressor.type}"/>
+            </or>
         </condition>
-        
-        <condition property="build.compression" value="-closure">
-            <x-is-true value="${build.compression.closure}"/>
-        </condition>
-        
-        <condition property="build.compression" value="-uglify">
-            <x-is-true value="${build.compression.uglify}"/>
-        </condition>
-        
-        <property name="build.compression" value=""/>
 
-        <x-verify-app-cmd-ver/>
+        <condition property="build.compression" value="-closure">
+            <or>
+                <x-is-true value="${build.compression.closure}"/>
+                <equals arg1="closure" arg2="${app.compressor.type}"/>
+            </or>
+        </condition>
+
+        <condition property="build.compression" value="-uglify">
+            <or>
+                <x-is-true value="${build.compression.uglify}"/>
+                <equals arg1="uglify" arg2="${app.compressor.type}"/>
+            </or>
+        </condition>
+
+        <property name="build.compression" value=""/>
 
         <!--
         this id string is used to share a common compiler instance
         for all x-compile calls in this project
         -->
         <property name="compiler.ref.id" value="app-compiler"/>
-        
+
         <!--
         this property is set indicating we've reached the end of the
         core init phase.  it's presence will indicate that we've already
@@ -102,6 +124,14 @@
         See the above 'unless' attribute on the -init target
         -->
         <property name="internal.x-sencha-initialized" value="true"/>
+
+        <!-- 
+        this is a helper property that is the relative path prefix from the 
+        application's root directory to the root of the build directory
+        -->
+        <x-get-relative-path from="${app.dir}"
+                             to="${build.out.base.path}"
+                             property="build.dir.relative"/>
     </target>
     <target name="-after-init"/>
 
@@ -118,7 +148,7 @@
              </property>
         -->
         <property name="build.operations" value=""/>
-        
+
         <!--
              This property can be modified to change concatenation
              specific options
@@ -134,7 +164,7 @@
              </property>
         -->
         <property name="build.concat.options" value=""/>
-        
+
         <!--
              This property can be modified to change page compilation options
              
@@ -145,39 +175,54 @@
              </property>
         -->
         <property name="build.page.options" value=""/>
+
+
+        <dirname property="build.out.page.dir" file="${build.out.page.path}"/>
+        <dirname property="build.out.js.dir" file="${build.out.js.path}"/>
+        <dirname property="build.out.framework.dir" file="${build.out.framework.path}"/>
+        <dirname property="build.out.css.dir" file="${build.out.css.path}"/>
+        <dirname property="build.out.microloader.dir" file="${build.out.microloader.path}"/>
+        <dirname property="build.out.manifest.dir" file="${build.out.manifest.path}"/>
+        <dirname property="build.out.metadata.dir" file="${build.out.metadata.path}"/>
+
+        <dirname property="build.bootstrap.page.dir" file="${build.bootstrap.page.path}"/>
+        <dirname property="build.bootstrap.css.dir" file="${build.bootstrap.css.path}"/>
+        <dirname property="build.bootstrap.microloader.dir" file="${build.bootstrap.microloader.path}"/>
+        <dirname property="build.bootstrap.manifest.dir" file="${build.bootstrap.manifest.path}"/>
+        <dirname property="build.bootstrap.metadata.dir" file="${build.bootstrap.metadata.path}"/>
+
+        <x-get-relative-path from="${build.out.base.path}" to="${build.out.js.path}" property="build.classes.name"/>
+        <x-get-relative-path from="${build.out.page.dir}" to="${build.out.microloader.path}" property="build.microloader.name"/>
+        <x-get-relative-path from="${build.out.page.dir}" to="${build.out.manifest.path}" property="app.manifest.name"/>
+
+        <if>
+            <x-is-true value="${app.output.microloader.enable}"/>
+            <then>
+                <property name="build.output.markuponly" value="false"/>
+            </then>
+            <else>
+                <property name="build.output.markuponly" value="true"/>
+            </else>
+        </if>
     </target>
     <target name="-after-init-defaults"/>
-    
+
     <!--
     Initializes the compiler instances, reading in the app.json and package.json
     definitions, as well as scanning and parsing all js files found on the
     various classpath entries for the framework, workspace, packages, and app
     -->
     <target name="-init-compiler" depends="-init">
+        <local name="include.versions.file"/>
+        <local name="include.versions.file.command"/>
+
         <condition property="internal.app.css.rel" value="${app.out.css.rel}">
             <x-is-true value="${enable.ext42.themes}"/>
         </condition>
         <property name="internal.app.css.rel" value=""/>
 
-        <x-compile refid="${compiler.ref.id}" 
-                   dir="${app.dir}" 
-                   initOnly="true" 
-                   inheritAll="true">
+        <property name="include.versions.file.command">
             <![CDATA[
-                # base build command
-                -tempDir=${build.compile.temp.dir}
-                -keepTempDir=${build.compile.temp.dir.keep}
-                -options=${build.options}
-                load-app
-                    -frameworkFile=${build.framework.name}
-                    -jsBundleFile=${build.classes.name}
-                    -cssBundleFile=${internal.app.css.rel}
-                    -tempDir=${build.app.temp.dir}
-                    -tag=${build.tag.name}
-                and
-                restore
-                    ${build.tag.name}     
-                and
                 meta
                     +packages
                     -out=${build.out.package.versions}
@@ -187,16 +232,57 @@
                     -name=framework
                 and
                 require
-                    -source=@${build.tag.name}
-                    -requires=@overrides
-                    -allow-unmet=true
-                and
-                require
                     -scopeName=framework
-                    -source=Ext.util.Observable
+                    -source=Ext.Base
                     -requires=${build.out.package.versions}
                     -allow-unmet=false
                 and
+            ]]>
+        </property>
+
+        <property name="exclude.boot.command">
+            <![CDATA[
+                exclude
+                    -class=Ext.Boot
+                and
+            ]]>
+        </property>
+
+        <condition property="include.versions.file" value="${include.versions.file.command}">
+            <x-is-false value="${build.skip.versions.file}"/>
+        </condition>
+
+        <property name="include.versions.file" value="#skip"/>
+
+        <condition property="exclude.boot" value="${exclude.boot.command}">
+            <not>
+                <x-is-true value="${build.output.markuponly}"/>
+            </not>
+        </condition>
+
+        <property name="exclude.boot" value="#skip"/>
+
+        <x-compile refid="${compiler.ref.id}"
+                   dir="${app.dir}"
+                   initOnly="true"
+                   inheritAll="true">
+            <![CDATA[
+                # base build command
+                -tempDir=${build.compile.temp.dir}
+                -keepTempDir=${build.compile.temp.dir.keep}
+                -options=${build.options}
+                load-app
+                    -splitFramework=${enable.split.mode}
+                    -frameworkFile=${build.framework.name}
+                    -jsBundleFile=${build.classes.name}
+                    -cssBundleFile=${internal.app.css.rel}
+                    -tempDir=${build.app.temp.dir}
+                    -tag=${build.tag.name}
+                and
+                restore
+                    ${build.tag.name}     
+                and
+                ${include.versions.file}
                 union
                     -recursive
                     -tag=${build.tag.name}
@@ -206,6 +292,26 @@
                 and
                 ${build.operations}
                 and
+                ${exclude.boot}
+                save
+                    page
+            ]]>
+        </x-compile>
+    </target>
+
+    <target name="-init-app-js-files" depends="-init-compiler">
+        <x-compile refid="${compiler.ref.id}">
+            <![CDATA[
+                union
+                    -recursive
+                    -tag=${build.tag.name}
+                and
+                save
+                    ${build.tag.name}-overrides
+                and
+                ${build.operations}
+                and
+                ${exclude.boot}
                 save
                     page
             ]]>

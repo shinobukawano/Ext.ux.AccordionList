@@ -1,22 +1,27 @@
-<project name="resolve-impl">
+<project name="x-resolve-impl">
     
     <target name="-before-web-start"/>
     <target name="-web-start">
         <property name="enable.background.server" value="false"/>
         <x-sencha-command>
             <![CDATA[
-            fs
-                web
-                    -port=${build.web.port}
-                    -background=${enable.background.server}
-                    start
-                        -map=${build.web.root}
+            web
+                -port=${build.web.port}
+                -background=${enable.background.server}
+                start
+                    -map=${build.web.root}
             ]]>
         </x-sencha-command>
+        <if>
+            <x-is-true value="enable.browser.launch"/>
+            <then>
+                <x-launch-browser url="http://localhost:${build.web.port}"/>
+            </then>
+        </if>
     </target>
     <target name="-after-web-start"/>
     <target name="web-start"
-        depends="-init,-before-web-start,-web-start,-after-web-start"/>
+        depends="init,-before-web-start,-web-start,-after-web-start"/>
 
     <target name="-before-web-stop"/>
     <target name="-web-stop">
@@ -24,9 +29,14 @@
         This needs to be in it's own process due to threading issues when called from a
         target.
         -->
-        <x-shell dir="${app.dir}">
-            ${cmd.dir}/sencha fs web -port ${build.web.port} stop
-        </x-shell>
+        <java fork="true"
+              dir="${app.dir}"
+              jar="${cmd.dir}/sencha.jar"
+              failonerror="true">
+            <arg value="web"/>
+            <arg value="-port=${build.web.port}"/>
+            <arg value="stop"/>
+        </java>
     </target>
     <target name="-after-web-stop"/>
     <target name="web-stop"
@@ -80,4 +90,20 @@
         <x-ant-call target="-resolve-impl"/>
     </target>
     <target name="-after-resolve"/>
+    
+    <target name="-before-explain"/>
+    <target name="-explain" depends="-init-compiler">
+        <x-compile refid="${compiler.ref.id}">
+            <![CDATA[
+            explain
+                -alias
+                    ${build.app.temp.dir}/${build.tag.name}-master-bundle.js=APPLICATION
+                ${build.app.temp.dir}/${build.tag.name}-master-bundle.js
+                ${args.targetName}
+            ]]>
+        </x-compile>
+    </target>
+    <target name="-after-explain"/>
+    <target name="explain" depends="init,-before-explain,-explain,-after-explain"/>
+    
  </project>

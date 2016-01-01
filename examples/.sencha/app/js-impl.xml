@@ -1,14 +1,16 @@
-<project name="js-impl">
+<project name="x-js-impl">
     <!--
     this target extracts split mode information from the compiler's app
     processor to determine various pieces of information
     -->
     <target name="-detect-app-build-properties" 
-            depends="-init-compiler">
+            depends="-init-app-js-files">
         <x-load-app-builder-properties
             refid="${compiler.ref.id}"
             splitModePropName="enable.split.mode"
-            pageModePropName="app.page.mode"/>
+            pageModePropName="app.page.mode"
+            hasJsSdkPropName="app.has.js.sdk"
+            hasCssSdkPropName="app.has.css.sdk"/>
     </target>
 
     <!--    
@@ -21,12 +23,27 @@
                 <x-compile refid="${compiler.ref.id}">
                     <![CDATA[
                         # build a separate sdk-only js file
-                        union
+                        exclude
+                            -all
+                        and
+                        include
                             -tag=package-sencha-core,framework
+                        and
+                        save
+                            allframework
+                        and
+                        intersect
+                            -set=page,allframework
+                        and
+                        save
+                            frameworkdeps
                         and
                         ${build.optimize}
                         and
                         concat
+                            -remove-text-references=${build.remove.references}
+                            -optimize-string-references=${build.optimize.string.references}
+                            -remove-requirement-nodes=${build.remove.requirement.nodes}
                             ${build.compression}
                             -out=${build.framework.file}
                             ${build.concat.options}
@@ -38,11 +55,12 @@
                             page
                         and
                         exclude
-                            -tag=framework,package-sencha-core
-                        and
-                        ${build.optimize}
+                            -set=frameworkdeps
                         and
                         concat
+                            -remove-text-references=${build.remove.references}
+                            -optimize-string-references=${build.optimize.string.references}
+                            -remove-requirement-nodes=${build.remove.requirement.nodes}
                             ${build.compression}
                             -out=${build.classes.file}
                             ${build.concat.options}
@@ -60,6 +78,9 @@
                         ${build.optimize}
                         and
                         concat
+                            -remove-text-references=${build.remove.references}
+                            -optimize-string-references=${build.optimize.string.references}
+                            -remove-requirement-nodes=${build.remove.requirement.nodes}
                             ${build.compression}
                             -out=${build.classes.file}
                             ${build.concat.options}

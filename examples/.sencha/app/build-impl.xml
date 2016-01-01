@@ -14,7 +14,7 @@ the target provided here. Doing that can create problems for upgrading to newer
 versions of Cmd so it is not recommended but it will be easier to manage than editing
 this file in most cases.
 -->
-<project name="app-build-impl">
+<project name="x-app-build-impl" default=".help">
     <!--
     ===============================================================
     helper targets for ant integrations with IDE's 
@@ -116,6 +116,10 @@ this file in most cases.
         <property name="build.environment" value="package"/>
     </target>
 
+    <target name="development"
+            description="Sets the build environment to development.">
+        <property name="build.environment" value="development"/>
+    </target>
 
     <!--
     ===============================================================
@@ -177,7 +181,8 @@ this file in most cases.
                      -before-init-defaults,
                      -init-defaults,
                      -after-init-defaults,
-                     -init-compiler"/>
+                     -init-compiler,
+                     -init-native-package"/>
     
     <!--
     ===============================================================
@@ -210,7 +215,7 @@ this file in most cases.
     -->
     <target name="-before-clean"/>
     <target name="-clean">
-        <delete dir="${build.dir}"/>
+        <delete dir="${app.output.base}"/>
         <delete dir="${build.temp.dir}"/>
     </target>
     <target name="-after-clean"/>
@@ -232,9 +237,15 @@ this file in most cases.
     ===============================================================
     -->
     <import file="${basedir}/.sencha/app/watch-impl.xml"/>
-    <target name="watch">
-        <property name="build.optimize" value=""/>
+    <target name="-watch-init">
+        <property name="app.watch.enabled" value="true"/>
+    </target>
+    <target name="watch"
+            depends="-watch-init,development,init"
+            description="Starts Watch to keep your app ready for dev mode">
         <x-ant-call>
+            <param name="build.id" value="${build.id}"/>
+            <param name="build.name" value="${build.name}"/>
             <target name="-before-watch"/>
             <target name="-watch"/>
             <target name="-after-watch"/>
@@ -416,6 +427,8 @@ this file in most cases.
     ===============================================================
     -->
     <import file="${basedir}/.sencha/app/packager-impl.xml"/>
+    <import file="${basedir}/.sencha/app/cordova-impl.xml"/>
+    <import file="${basedir}/.sencha/app/phonegap-impl.xml"/>
     <target name="native-package"
             depends="init"
             description="Builds native packages of the application">
@@ -425,6 +438,30 @@ this file in most cases.
             <target name="-after-native-package"/>
         </x-ant-call>
     </target>
+
+
+    <target name="-before-publish"/>
+    <target name="-after-publish"/>
+    <target name="-publish">
+        <property name="app.space.file" value="${app.output.base}"/>
+        <x-sencha-command>
+            <![CDATA[
+            space
+                version
+                    create
+                        -id=${app.space.id}
+                        -name=${app.version}
+                        -host=${app.space.host}
+                        -secret=${app.space.secret}
+                        -apiKey=${app.space.apiKey}
+                        -file=${app.space.file}
+            ]]>
+        </x-sencha-command>
+    </target>
+    <target name="publish"
+            depends="init,-before-publish,-publish,-after-publish"
+            description="publish app to sencha space"/>
+
 
     <!--
     ===============================================================
@@ -458,37 +495,22 @@ process.
  * skip.resources   Do not copy resources to the build directory
  * skip.sass        Do not build the SASS.
  * skip.slice       Do not build the theme image slicer.
- * skip.theme       Do not build the theme images.
             
-The following properties can be used to modify the build process.
-            
- * build.compression.yui                Specify yui compression for the build
+Most build options are controlled by the app manifest. For details see:
+    
+    ${basedir}/app.json
 
- * build.compression.closure            Specify closure compression for the build
-            
- * build.compression.uglify             Specify uglify compression for the build
-            
- * build.options                        Set general options for the build
-                                        (eg: enable a debug build)
- 
-         To modify any of the previous build specific options, see:
-           ${basedir}/.sencha/app/${build.environment}.properties
-            
- * build.operations                     Insert commands into the compile command
-                                        for the build.
-            
- * app.page.name                        Set the input and output page file
-                                        for the compile command.
- 
- * build.classes.name                   Specify the compiled js file
-                                        
+For more specific controls over the build process, see:
 
+    ${basedir}/.sencha/app/defaults.properties
+            
 For details about how these options affect your build, see
 
     ${basedir}/.sencha/app/build-impl.xml
-
+    
 These options can be stored in a local.properties file in this folder or in the
-local.properties file in the workspace.
+local.properties file in the workspace. This file should not be included in 
+source control.
 
 Alternatively, these can be supplied on the command line. For example:
 
